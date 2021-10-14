@@ -40,6 +40,17 @@ class tm:
         words = list(set(words))                                            #doppelte Umwandlung, um alle doppelten Wörter zu entfernen
         words.sort()
         return words
+    def combine_dictionaries(*dictionaries):                                #kombiniert eine beliebige Anzahl an dictionaries
+        if dictionaries == None:                                            #anscheinend unnötig, wird nix übergeben ist dictionaries != None und len(dictionaries)<2
+            return -1
+        if len(dictionaries)<2:                                             #ab diesem Punkt war ich zu faul ausführlich zu kommentieren
+            return -1
+        dictionary = []
+        for d in dictionaries:
+            dictionary += d
+        dictionary = list(set(dictionary))
+        dictionary.sort()
+        return dictionary
     def get_word_frequency(text = None, dictionary = None):                 #errechnet die Worthäufigkeit eines Textes
         if text == None:
             return -1
@@ -79,7 +90,7 @@ class tm:
             pos = symbols.index(e)
             frequency[pos] = frequency[pos] + 1
         return frequency
-    def get_relative_symbol_frequency(text = None, symbols = [".","!","?",",","-"]):#gibt de relative Häufigkeit der Sonderzeichen zurück
+    def get_relative_symbol_frequency(text = None, symbols = [".","!","?",",","-"]):#gibt die relative Häufigkeit der Sonderzeichen zurück
         if text == None:
             return -1
         frequency = tm.get_symbol_frequency(text, symbols);
@@ -111,7 +122,8 @@ class tm:
         
     
 text = "test! Words in row. A question? Word and another word and question"
-print(tm.get_relative_symbol_frequency(text))
+text2 = "more text. more knorke. have to write some stupid words"
+print(tm.combine_dictionaries())#tm.generate_dictionary(text), tm.generate_dictionary(text2)))
 #print(tm.generate_dictionary(text))
 #print(tm.get_word_frequency(text))
 #print(tm.get_relative_word_frequency(text))

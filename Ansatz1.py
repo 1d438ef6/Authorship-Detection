@@ -100,6 +100,23 @@ class tm:
         for i in range(nos1):
             rel_frequency[i] = frequency[i] / nos2
         return rel_frequency
+    def get_number_of_symbols_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):
+        if text == None:
+            return -1
+        print(text)
+        symbol_marker = tm.get_symbols(text, symbols)
+        print(symbol_marker)
+        nosir = []
+        h = 0
+        for i in range(len(symbol_marker)):
+            if symbol_marker[i] == symbol:
+                h += 1
+            else:
+                if not h == 0:
+                    nosir.append(h)
+                    h = 0
+        nosir.append(h)
+        return nosir
     def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas eines Textes zurück
         if text == None:
             return -1
@@ -121,9 +138,9 @@ class tm:
 
         
     
-text = "test! Words in row. A question? Word and another word and question"
-text2 = "more text. more knorke. have to write some stupid words"
-print(tm.combine_dictionaries())#tm.generate_dictionary(text), tm.generate_dictionary(text2)))
+text = "test! Words in row. A question? Word and another word and question."
+text2 = "more text. more knorke. have to! write some. stupid? words."
+print(tm.get_number_of_symbols_in_row(text=text+text2, symbol="."))
 #print(tm.generate_dictionary(text))
 #print(tm.get_word_frequency(text))
 #print(tm.get_relative_word_frequency(text))

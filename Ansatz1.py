@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 class tm:
     def remove_special_characters(text = None):                             #ersetzt Umlaute im Text
         if text == None:
             return -1
-        special_character = {"ä", "Ä", "ö", "Ö", "ü", "Ü", "ß"}             #zu ersetzende Umlaute
-        replace_with = {"ae", "Ae", "oe", "Oe", "ue", "Ue", "ss"}           #womit die Umlaute ersetzt werden sollen
+        special_character = ["ä", "Ä", "ö", "Ö", "ü", "Ü", "ß"]             #zu ersetzende Umlaute
+        replace_with = ["ae", "Ae", "oe", "Oe", "ue", "Ue", "ss"]           #womit die Umlaute ersetzt werden sollen
         if len(special_character) == len(replace_with):                     
             for i in range(len(special_character)):
                 text = text.replace(special_character[i],replace_with[i])
@@ -51,13 +53,24 @@ class tm:
         dictionary = list(set(dictionary))
         dictionary.sort()
         return dictionary
+    def combine_dictionary_with_frequencies(dictionary = None, frequencies = None):     #kombiniert ein dictionary mit Worthäufigkeiten
+        if dictionary == None or frequencies == None:
+            return -1
+        combination = []
+        if len(dictionary) == len(frequencies):
+            for i in range(len(dictionary)):
+                t = (dictionary[i],frequencies[i])
+                combination.append(t)
+            return combination
+        else:
+            return -1
     def get_word_frequency(text = None, dictionary = None):                 #errechnet die Worthäufigkeit eines Textes
         if text == None:
             return -1
         if dictionary == None:
             dictionary = tm.generate_dictionary(text)
         frequency = [0 for i in range(len(dictionary))]
-        text.lower()
+        text=text.lower()
         words = tm.split_in_words(text)
         for e in words:
             pos = dictionary.index(e)
@@ -100,13 +113,13 @@ class tm:
         for i in range(nos1):
             rel_frequency[i] = frequency[i] / nos2
         return rel_frequency
-    def get_number_of_symbols_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):
+    def get_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):   #gibt eine Liste mit Häufigkeiten wieder in denen ein bestimmtes Zeichen in Reihe auftritt
         if text == None:
             return -1
         print(text)
         symbol_marker = tm.get_symbols(text, symbols)
         print(symbol_marker)
-        nosir = []
+        nosir = []          #number of symbols in row
         h = 0
         for i in range(len(symbol_marker)):
             if symbol_marker[i] == symbol:
@@ -117,6 +130,14 @@ class tm:
                     h = 0
         nosir.append(h)
         return nosir
+    def get_average_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):        #gibt die durschnittlich Häufigkeit eines bestimmten Zeichens in Reihe zurück
+        if text == None:
+            return -1
+        nosir = tm.get_number_of_symbol_in_row(text, symbol, symbols)
+        h = 0
+        for e in nosir:
+            h += e
+        return h/len(nosir)
     def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas eines Textes zurück
         if text == None:
             return -1
@@ -140,7 +161,13 @@ class tm:
     
 text = "test! Words in row. A question? Word and another word and question."
 text2 = "more text. more knorke. have to! write some. stupid? words."
-print(tm.get_number_of_symbols_in_row(text=text+text2, symbol="."))
+f = open("text.txt", "r", encoding="utf8")
+text3 = f.read()
+f.close()
+print(text3)
+text3 = tm.remove_special_characters(text3)
+print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text=text3),frequencies=tm.get_word_frequency(text=text3)))
+#print(tm.get_average_number_of_symbol_in_row(text=text+text2, symbol="."))
 #print(tm.generate_dictionary(text))
 #print(tm.get_word_frequency(text))
 #print(tm.get_relative_word_frequency(text))

@@ -6,4 +6,5 @@ Softwarprojekt an der HS Mittweida, Studiengang Allgemeine und Digitale Forensik
 
 ## Usage
 
-neue .py-Datei erstellen, erste Zeile: ```import tm.py```
+neue .py-Datei erstellen, erste Zeile: 
+```from tm import tm```

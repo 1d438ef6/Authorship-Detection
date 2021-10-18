@@ -66,6 +66,10 @@ class tm:
             return combination
         else:
             return -1
+    def get_number_of_sentences(text = None):                               #gibt die Anzahl von Sätzen in einem Text zurück
+        if text == None:
+            return -1
+        return len(tm.split_in_sentences(text))
     def get_word_frequency(text = None, dictionary = None):                 #errechnet die Worthäufigkeit eines Textes
         if text == None:
             return -1
@@ -99,6 +103,10 @@ class tm:
         for w in words:
             l += len(w)
         return l/len(words)
+    def get_number_of_words(text = None):                                   #gibt die Anzahl der Wörter in einem Text zurück
+        if text == None:
+            return -1
+        return len(tm.split_in_words(text))
     def get_average_words_per_sentence(text = None):                        #gibt die durchschnittliche Anzahl an Wörtern pro Satz zurück
         if text == None:
             return -1
@@ -160,6 +168,10 @@ class tm:
     def get_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):   #gibt eine Liste mit Häufigkeiten wieder in denen ein bestimmtes Zeichen in Reihe auftritt
         if text == None:
             return -1
+        if not symbol in symbols:       #das gesuchte symbol kann nicht gefunden werden
+            return -1
+        if not symbol in text:          #des gesuchte symbol ist nicht im Text vorhanden
+            return 0
         print(text)
         symbol_marker = tm.get_symbols(text, symbols)
         print(symbol_marker)
@@ -171,17 +183,20 @@ class tm:
             else:
                 if not h == 0:
                     nosir.append(h)
-                    h = 0
+                    h = 0  
         nosir.append(h)
         return nosir
     def get_average_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):        #gibt die durschnittlich Häufigkeit eines bestimmten Zeichens in Reihe zurück
         if text == None:
             return -1
         nosir = tm.get_number_of_symbol_in_row(text, symbol, symbols)
-        h = 0
-        for e in nosir:
-            h += e
-        return h/len(nosir)
+        if not (nosir == 0 or nosir == -1):         #get_number_of_symbol_in_row() liefert keinen Fehler zurück
+            h = 0
+            for e in nosir:
+                h += e
+            return h/len(nosir)
+        else:
+            return -1
     def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas eines Textes zurück
         if text == None:
             return -1
@@ -204,17 +219,10 @@ class tm:
         
 
 if __name__ == "__main__":
-    text = "test! Words in row. A question? Word and another word and question."
-    text2 = "more text. more knorke. have to! write some. stupid? words."
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()
     print(text3)
     text3 = tm.remove_special_characters(text3)
-    print(tm.get_rel_letter_frequency(text3))
-    #print(tm.get_average_number_of_symbol_in_row(text=text+text2, symbol="."))
-    #print(tm.generate_dictionary(text))
-    #print(tm.get_word_frequency(text))
-    #print(tm.get_relative_word_frequency(text))
-    #print(tm.get_relevant_syntagmas(text))
+    print(tm.get_number_of_words(text3))
 

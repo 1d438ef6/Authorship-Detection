@@ -122,7 +122,7 @@ class tm:
     def get_rel_letter_frequency(text = None):                              #gibt die relative Buchstabenhäufigkeit zurück
         if text == None:
             return -1
-        frequency = get_letter_frequency(text)
+        frequency = tm.get_letter_frequency(text)
         rel_frequency = [0 for i in range(26)]
         l = 0
         for i in frequency:
@@ -202,18 +202,19 @@ class tm:
         return syntagma
 
         
-tm.get_letter_frequency("aaa")
-text = "test! Words in row. A question? Word and another word and question."
-text2 = "more text. more knorke. have to! write some. stupid? words."
-f = open("text.txt", "r", encoding="utf8")
-text3 = f.read()
-f.close()
-print(text3)
-text3 = tm.remove_special_characters(text3)
-print(tm.get_average_word_length(text3))
-#print(tm.get_average_number_of_symbol_in_row(text=text+text2, symbol="."))
-#print(tm.generate_dictionary(text))
-#print(tm.get_word_frequency(text))
-#print(tm.get_relative_word_frequency(text))
-#print(tm.get_relevant_syntagmas(text))
+
+if __name__ == "__main__":
+    text = "test! Words in row. A question? Word and another word and question."
+    text2 = "more text. more knorke. have to! write some. stupid? words."
+    f = open("text.txt", "r", encoding="utf8")
+    text3 = f.read()
+    f.close()
+    print(text3)
+    text3 = tm.remove_special_characters(text3)
+    print(tm.get_rel_letter_frequency(text3))
+    #print(tm.get_average_number_of_symbol_in_row(text=text+text2, symbol="."))
+    #print(tm.generate_dictionary(text))
+    #print(tm.get_word_frequency(text))
+    #print(tm.get_relative_word_frequency(text))
+    #print(tm.get_relevant_syntagmas(text))
 

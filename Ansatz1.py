@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import string
+
 class tm:
     def remove_special_characters(text = None):                             #ersetzt Umlaute im Text
         if text == None:
@@ -73,8 +75,11 @@ class tm:
         text=text.lower()
         words = tm.split_in_words(text)
         for e in words:
-            pos = dictionary.index(e)
-            frequency[pos] = frequency[pos] + 1
+            if e in dictionary:                                             #für den Fall das ein Wort des Textes nicht im dictionary enthalten ist, zB wenn man nur die Häufigkeit bestimmter Wörter sucht
+                pos = dictionary.index(e)
+                frequency[pos] = frequency[pos] + 1
+            else:
+                print(e + " ist nicht in dictionary vorhanden")
         return frequency
     def get_relative_word_frequency(text = None, dictionary = None):        #errechnet die relative Worthäufigkeit
         if text == None:
@@ -85,6 +90,45 @@ class tm:
         rel_frequency = [0 for i in range(now1)]
         for i in range(now1):
             rel_frequency[i] = frequency[i] / now2
+        return rel_frequency
+    def get_average_word_length(text = None):                               #gibt die durchschnittliche Wortlänge zurück
+        if text == None:
+            return -1
+        words = tm.split_in_words(text)
+        l = 0
+        for w in words:
+            l += len(w)
+        return l/len(words)
+    def get_average_words_per_sentence(text = None):                        #gibt die durchschnittliche Anzahl an Wörtern pro Satz zurück
+        if text == None:
+            return -1
+        sentences = tm.split_in_sentences(text)
+        l_sentences = 0
+        for s in sentences:
+            w = tm.split_in_words(s)
+            l_sentences += len(w)
+        return l_sentences / len(sentences)
+    def get_letter_frequency(text = None):                                  #gibt die Buchstaben Häufigkeit zurück
+        if text == None:
+            return -1
+        alphabet = string.ascii_letters[:26]
+        text = text.lower()
+        frequency = [0 for i in range(26)]
+        for l in text:
+            if l in alphabet:
+                pos = alphabet.index(l)
+                frequency[pos] += 1
+        return frequency
+    def get_rel_letter_frequency(text = None):                              #gibt die relative Buchstabenhäufigkeit zurück
+        if text == None:
+            return -1
+        frequency = get_letter_frequency(text)
+        rel_frequency = [0 for i in range(26)]
+        l = 0
+        for i in frequency:
+            l += i
+        for i in range(26):
+            rel_frequency[i] = frequency[i] / l
         return rel_frequency
     def get_symbols(text = None, symbols = [".","!","?",",","-"]):          #gibt alle Sonderzeichen im Text zurück
         if text == None:
@@ -158,7 +202,7 @@ class tm:
         return syntagma
 
         
-    
+tm.get_letter_frequency("aaa")
 text = "test! Words in row. A question? Word and another word and question."
 text2 = "more text. more knorke. have to! write some. stupid? words."
 f = open("text.txt", "r", encoding="utf8")
@@ -166,7 +210,7 @@ text3 = f.read()
 f.close()
 print(text3)
 text3 = tm.remove_special_characters(text3)
-print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text=text3),frequencies=tm.get_word_frequency(text=text3)))
+print(tm.get_average_word_length(text3))
 #print(tm.get_average_number_of_symbol_in_row(text=text+text2, symbol="."))
 #print(tm.generate_dictionary(text))
 #print(tm.get_word_frequency(text))

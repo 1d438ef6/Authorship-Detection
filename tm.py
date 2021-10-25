@@ -2,7 +2,24 @@
 
 import string
 
+#R Zeugs
+import rpy2.robjects as robjects
+import rpy2.robjects.packages as rpackages
+from rpy2.robjects.vectors import StrVector
+from rpy2.robjects.packages import importr
+
+
 class tm:
+    
+    packageNames = ('dplyr','tidytext','corpus')
+    utils = rpackages.importr('utils')
+    if not all(rpackages.isinstalled(x) for x in packageNames):
+        utils = rpackages.importr('utils')
+        utils.chooseCRANmirror(ind=1)
+        packnames_to_install = [x for x in packageNames if not rpackages.isinstalled(x)]
+        if len(packnames_to_install) > 0:
+            utils.install_packages(StrVector(packnames_to_install))
+    
     def remove_special_characters(text = None):                             #ersetzt Umlaute im Text
         if text == None:
             return -1
@@ -14,13 +31,30 @@ class tm:
         else:
             return -1
         return text
+    def replace_characters(text = None, to_replace = {''}, replace_with = {''}):
+        if text == None:
+            return -1
+        i = 0
+        while len(replace_with)<len(to_replace):
+            replace_with.append(replace_with[i%len(replace_with)])
+            i+=1
+        for i in range(len(to_replace)):
+            text = text.replace(to_replace[i],replace_with[i])
+        return text
     def split_in_paragraphes(text = None):                                  #teilt den gegebenen Text in Paragraphen
         if text == None:                                                    #wenn kein Text übergeben wurde -> Error 
             return -1
         return text.split('\n\n')
-    def split_in_sentences(text = None):                                    #teilt den gegebenen Text in Sätze
+    def split_in_sentences(text = None, replace = False):                   #teilt den gegebenen Text in Sätze
         if text == None:                                                    #wenn kein Text übergeben wurde -> Error
             return -1
+        to_replace_with_nothing = {chr(8220), chr(8222)}
+        to_replace_with_space = {"\n",'  '}
+        if replace:
+            for e in to_replace_with_nothing:
+                text = text.replace(e,'')
+            for e in to_replace_with_space:
+                text = text.replace(e,' ')
         for i in range(len(text)-3):                                        #ersetzt das Ende jedes Satzes mit '#'
             if text[i]=='.' or text[i]=='!' or text[i]=='?':
                 if not text[i-1].isdigit():
@@ -222,7 +256,8 @@ if __name__ == "__main__":
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()
-    print(text3)
+    #print(text3)
     text3 = tm.remove_special_characters(text3)
-    print(tm.get_number_of_words(text3))
+    t = tm.split_in_sentences(text3, replace=True)
+    print("a")
 

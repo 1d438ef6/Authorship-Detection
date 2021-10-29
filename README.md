@@ -12,6 +12,6 @@ Anschließend können alle in tm.py enthaltenen Funktionen wie folgt aufgerufen 
 ```tm.function_name()```<br />
 
 für JSON-Files:<br />
-```from tm import jsonConverter```
+```from tm import jsonConverter``` <br />
 Anschließend kann ein Objekt der Klasse jsonConverter angelegt werden: <br />
-```jc = jsonConverter("filename")
+```jc = jsonConverter("filename")```

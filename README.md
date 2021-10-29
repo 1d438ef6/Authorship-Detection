@@ -6,10 +6,12 @@ Softwarprojekt an der HS Mittweida, Studiengang Allgemeine und Digitale Forensik
 
 ## Usage
 
-für Text-Mining:
-```from tm import tm```
-Anschließend können alle in tm.py enthaltenen Funktionen wie folgt aufgerufen werden: 
-```tm.function_name()```
+für Text-Mining: <br />
+```from tm import tm``` <br />
+Anschließend können alle in tm.py enthaltenen Funktionen wie folgt aufgerufen werden:<br /> 
+```tm.function_name()```<br />
 
-für JSON-Files:
+für JSON-Files:<br />
 ```from tm import jsonConverter```
+Anschließend kann ein Objekt der Klasse jsonConverter angelegt werden: <br />
+```jc = jsonConverter("filename")

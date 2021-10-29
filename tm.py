@@ -253,8 +253,11 @@ class tm:
 import json
 class jsonConverter:                            #to use that damn jsons file
     def __init__(self, jsonFile):
-        with open('data.json') as json_file:
+        with open(jsonFile) as jsonFile:
             self.data = json.load(jsonFile)
+    def __del__(self):
+        self.data.clear()
+        print("jsonConverter destroyed")
     def get_number_of_authors(self):
         return self.data["authors"]
     def get_structure(self):
@@ -266,6 +269,8 @@ class jsonConverter:                            #to use that damn jsons file
     
 
 if __name__ == "__main__":
+    jc = jsonConverter("truth-problem-799.json")
+    print(jc.get_changes())
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()

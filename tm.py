@@ -250,7 +250,20 @@ class tm:
                     syntagma.append(t)
         return syntagma
 
-        
+import json
+class jsonConverter:                            #to use that damn jsons file
+    def __init__(self, jsonFile):
+        with open('data.json') as json_file:
+            self.data = json.load(jsonFile)
+    def get_number_of_authors(self):
+        return self.data["authors"]
+    def get_structure(self):
+        return self.data["structure"]
+    def if_multi_author(self):
+        return self.data["multi-author"]
+    def get_changes(self):
+        return self.data["changes"]
+    
 
 if __name__ == "__main__":
     f = open("text.txt", "r", encoding="utf8")

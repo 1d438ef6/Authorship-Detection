@@ -231,7 +231,7 @@ class tm:
             return h/len(nosir)
         else:
             return -1
-    def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas eines Textes zurück
+    def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas (position) eines Textes zurück
         if text == None:
             return -1
         text = text.lower()
@@ -260,6 +260,22 @@ class tm:
         if text == None or len(filler_words)<1:
             return -1
         return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
+    def get_sentence_length(text = None, replace = False):
+        if text == None:
+            return -1
+        s = tm.split_in_sentences(text=text,replace=replace)
+        l = []
+        for i in s:
+            l.append(len(i))
+        return l
+    def get_relative_sentence_length(text=text,replace=False):
+        if text == None:
+            return -1
+        l = tm.get_sentence_length(text=text,replace=replace)
+        h = 0
+        for i in l:
+            h+=i
+        return h/tm.get_number_of_sentences(text=text,replace=replace)
 
 
 class jsonConverter:                            #to use that damn jsons file

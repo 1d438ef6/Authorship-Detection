@@ -100,10 +100,10 @@ class tm:
             return combination
         else:
             return -1
-    def get_number_of_sentences(text = None):                               #gibt die Anzahl von Sätzen in einem Text zurück
+    def get_number_of_sentences(text = None, replace = False):                               #gibt die Anzahl von Sätzen in einem Text zurück
         if text == None:
             return -1
-        return len(tm.split_in_sentences(text))
+        return len(tm.split_in_sentences(text=text,replace=replace))
     def get_word_frequency(text = None, dictionary = None):                 #errechnet die Worthäufigkeit eines Textes
         if text == None:
             return -1
@@ -249,6 +249,20 @@ class tm:
                     t = (dictionary.index(w), dictionary.index(words[p+position]))
                     syntagma.append(t)
         return syntagma
+    def get_sentence_complexity(text = None, symbol = ",", replace = False):
+        if text == None:
+            return -1
+        h = tm.get_symbol_frequency(text = text, symbols = symbol)[0]
+        return h/tm.get_number_of_sentences(text)
+    def get_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):
+        if text == None or len(filler_words)<1:
+            return -1
+        words = tm.split_in_words(text = text)
+        word_frequency = [0 for i in range(len(filler_words))]
+        for e in words:
+            if e in filler_words:
+                word_frequency[filler_words.index(e)] += 1
+        return word_frequency
 
 import json
 class jsonConverter:                            #to use that damn jsons file
@@ -269,13 +283,8 @@ class jsonConverter:                            #to use that damn jsons file
     
 
 if __name__ == "__main__":
-    jc = jsonConverter("truth-problem-799.json")
-    print(jc.get_changes())
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()
-    #print(text3)
-    text3 = tm.remove_special_characters(text3)
-    t = tm.split_in_sentences(text3, replace=True)
-    print("a")
+    print(tm.get_number_of_filler_words(text=text3))
 

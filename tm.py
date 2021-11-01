@@ -31,7 +31,7 @@ class tm:
         else:
             return -1
         return text
-    def replace_characters(text = None, to_replace = {''}, replace_with = {''}):
+    def replace_characters(text = None, to_replace = {''}, replace_with = {''}):        #ersetzt Zeichen
         if text == None:
             return -1
         i = 0
@@ -116,8 +116,8 @@ class tm:
             if e in dictionary:                                             #für den Fall das ein Wort des Textes nicht im dictionary enthalten ist, zB wenn man nur die Häufigkeit bestimmter Wörter sucht
                 pos = dictionary.index(e)
                 frequency[pos] = frequency[pos] + 1
-            else:
-                print(e + " ist nicht in dictionary vorhanden")
+            #else:
+            #    print(e + " ist nicht in dictionary vorhanden")
         return frequency
     def get_relative_word_frequency(text = None, dictionary = None):        #errechnet die relative Worthäufigkeit
         if text == None:
@@ -238,48 +238,57 @@ class tm:
         if dictionary == None:
             dictionary = tm.generate_dictionary(text)
         local_context = tm.split_in_sentences(text)
-        #print(local_context)
         syntagma = []
         for s in local_context:
             words = tm.split_in_words(s)
-            #print(words)
             for w in words:
                 p = words.index(w)
                 if 0 <= p+position < len(words):
                     t = (dictionary.index(w), dictionary.index(words[p+position]))
                     syntagma.append(t)
         return syntagma
-    def get_sentence_complexity(text = None, symbol = ",", replace = False):
+    def get_sentence_complexity(text = None, symbol = ",", replace = False):            #gibt die Satzkomplexität zurück
         if text == None:
             return -1
         h = tm.get_symbol_frequency(text = text, symbols = symbol)[0]
         return h/tm.get_number_of_sentences(text)
-    def get_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):
+    def get_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):     #gibt die Anzahl der gegebenen Füllwörter zurück 
         if text == None or len(filler_words)<1:
             return -1
-        words = tm.split_in_words(text = text)
-        word_frequency = [0 for i in range(len(filler_words))]
-        for e in words:
-            if e in filler_words:
-                word_frequency[filler_words.index(e)] += 1
-        return word_frequency
+        return tm.get_word_frequency(text=text,dictionary=filler_words)
+    def get_relative_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):          #gibt die relative Anzahl der gegebenen Füllwörter zurück
+        if text == None or len(filler_words)<1:
+            return -1
+        return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
 
 import json
 class jsonConverter:                            #to use that damn jsons file
-    def __init__(self, jsonFile):
+    def __init__(self, jsonFile):               #Constructor, muss Pfad zur JSON Datei gegeben bekommen
         with open(jsonFile) as jsonFile:
             self.data = json.load(jsonFile)
-    def __del__(self):
+    def __del__(self):                          #Destructor
         self.data.clear()
         print("jsonConverter destroyed")
-    def get_number_of_authors(self):
+    def get_number_of_authors(self):            #gibt Daten aus der json zurück
         return self.data["authors"]
     def get_structure(self):
         return self.data["structure"]
-    def if_multi_author(self):
+    def get_multi_author(self):
         return self.data["multi-author"]
     def get_changes(self):
         return self.data["changes"]
+    def get_author_paragraph(self):             #gibt für jeden paragraphen den entsprechenden Autor zurück
+        authors = self.data["authors"]
+        changes = self.data["changes"]
+        pos = 0
+        h = []
+        for i in changes:
+            if i == 1:
+                pos+=1
+                h.append(authors[pos])
+            else:
+                h.append(authors[pos])
+        return h
     
 
 if __name__ == "__main__":
@@ -287,5 +296,6 @@ if __name__ == "__main__":
     text3 = f.read()
     f.close()
     text3 = tm.replace_characters(text3,['(',')'],[''])
-    print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
+    print(tm.get_relative_number_of_filler_words(text3))
+    #print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
 

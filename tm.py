@@ -286,5 +286,6 @@ if __name__ == "__main__":
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()
-    print(tm.get_number_of_filler_words(text=text3))
+    text3 = tm.replace_characters(text3,['(',')'],[''])
+    print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
 

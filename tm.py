@@ -261,11 +261,15 @@ class tm:
             return -1
         return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
 
-import json
+
 class jsonConverter:                            #to use that damn jsons file
-    def __init__(self, jsonFile):               #Constructor, muss Pfad zur JSON Datei gegeben bekommen
-        with open(jsonFile) as jsonFile:
-            self.data = json.load(jsonFile)
+    import json
+    def __init__(self, jsonFile=None):          #Constructor, muss Pfad zur JSON Datei gegeben bekommen
+        try:
+            with open(jsonFile) as jsonFile:
+                self.data = json.load(jsonFile)
+        except:
+            print("Error")
     def __del__(self):                          #Destructor
         self.data.clear()
         print("jsonConverter destroyed")
@@ -292,6 +296,7 @@ class jsonConverter:                            #to use that damn jsons file
     
 
 if __name__ == "__main__":
+    jc = jsonConverter()
     f = open("text.txt", "r", encoding="utf8")
     text3 = f.read()
     f.close()

@@ -292,6 +292,10 @@ class tm:
         if text == None:
             return -1
         return len(tm.generate_dictionary(text=text))
+    def get_flesch_reading_ease(text=None):
+        if text == None:
+             return -1
+        return 206.835-(84.6*tm.get_average_number_of_syllables_per_word(text=text))-(1.015*tm.get_average_sentence_length(text=text,replace=True))
 
 
 class jsonConverter:                            #to use that damn jsons file

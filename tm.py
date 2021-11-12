@@ -8,6 +8,7 @@ import rpy2.robjects.packages as rpackages
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 
+from hyphenate import hyphenator
 
 class tm:
     
@@ -197,7 +198,10 @@ class tm:
         nos2 = len(tm.get_symbols(text, symbols))   #number of all symbols in the text
         rel_frequency = [0 for i in range(nos1)]
         for i in range(nos1):
-            rel_frequency[i] = frequency[i] / nos2
+            try:
+                rel_frequency[i] = frequency[i] / nos2
+            except:
+                rel_frequency[i] = 0
         return rel_frequency
     def get_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):   #gibt eine Liste mit Häufigkeiten wieder in denen ein bestimmtes Zeichen in Reihe auftritt
         if text == None:
@@ -268,7 +272,7 @@ class tm:
         for i in s:
             l.append(len(i))
         return l
-    def get_relative_sentence_length(text=text,replace=False):
+    def get_relative_sentence_length(text=None,replace=False):
         if text == None:
             return -1
         l = tm.get_sentence_length(text=text,replace=replace)
@@ -276,6 +280,18 @@ class tm:
         for i in l:
             h+=i
         return h/tm.get_number_of_sentences(text=text,replace=replace)
+    def get_average_number_of_syllables_per_word(text=None):
+        if text == None:
+            return -1
+        words = tm.split_in_words(text=text)
+        h = 0
+        for w in words:
+            h += len(hyphenator.hyphenate_word(w))
+        return h/len(words)
+    def get_word_varianz(text = None):
+        if text == None:
+            return -1
+        return len(tm.generate_dictionary(text=text))
 
 
 class jsonConverter:                            #to use that damn jsons file
@@ -312,11 +328,11 @@ class jsonConverter:                            #to use that damn jsons file
     
 
 if __name__ == "__main__":
-    jc = jsonConverter()
-    f = open("text.txt", "r", encoding="utf8")
-    text3 = f.read()
-    f.close()
-    text3 = tm.replace_characters(text3,['(',')'],[''])
-    print(tm.get_relative_number_of_filler_words(text3))
+    #jc = jsonConverter()
+    #f = open("text.txt", "r", encoding="utf8")
+    #text3 = f.read()
+    #f.close()
+    #text3 = tm.replace_characters(text3,['(',')'],[''])
+    print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
     #print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
 

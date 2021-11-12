@@ -1,3 +1,6 @@
 
 sentences_test.txt
 Aktuell vorhandene Funktionen.txt
+__pycache__/hyphenate.cpython-37.pyc
+__pycache__/tm.cpython-37.pyc
+*.pyc

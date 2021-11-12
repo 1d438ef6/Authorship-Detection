@@ -293,7 +293,7 @@ class tm:
             return -1
         return len(tm.generate_dictionary(text=text))
     Def get_word_varianz2(text = None):
-        return (1/tm.get_word_varianz(text=text))*len(tm.split_in_words(text=text))
+        return 1/((1/tm.get_word_varianz(text=text))*len(tm.split_in_words(text=text)))
     def get_flesch_reading_ease(text=None):
         if text == None:
              return -1

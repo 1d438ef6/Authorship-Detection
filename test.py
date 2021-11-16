@@ -32,19 +32,24 @@ fig = plt.figure()
 ax = plt.axes(projection ='3d')
 
 for p in paragraphs:
-    if len(tm.split_in_words(p))>70:
+    if len(tm.split_in_words(p))>10:
         v = [
+            #Lexical
+            len(tm.split_in_words(p)),                                      #absolute number of words in paragraph
+            tm.get_number_of_short_words(text=p),                           #absolute number of short words
+            tm.get_relative_sentence_length(text=p,replace=True),           #relativ sentence length
+            tm.get_average_word_length(text=p),                             #average word length in charachters
+            tm.get_average_words_per_sentence(text=p),                      #average words per sentence
+            tm.get_number_of_sentences(text=p, replace=True),
+            
             tm.get_sentence_complexity(text=p,symbol=',',replace=True),
-            tm.get_average_word_length(text=p),
-            #tm.get_sentence_length(text=p,replace=True),
-            tm.get_relative_sentence_length(text=p,replace=True),
-            tm.get_average_words_per_sentence(text=p),
             tm.get_average_number_of_syllables_per_word(text=p),
             tm.get_word_varianz2(text=p)*25,
-            tm.get_flesch_reading_ease(text=p)
+            tm.get_flesch_reading_ease(text=p),
+            tm.get_symbol_frequency(text=p,symbols=['\''])[0]               #absolute number of shortings
             ]
         for i in tm.get_relative_symbol_frequency(text=p):
-            v.append(i)
+            v.append(i*50)
         for i in tm.get_relative_number_of_filler_words(text=p,filler_words=['of','is','the']):
             v.append(i*50)
         x = [i for i in range(len(v))]
@@ -53,7 +58,7 @@ for p in paragraphs:
         #plt.xticks(ticks=x,labels=['SC','AWL','RSL','AWS','ASN','WV','FRE','.','!','?',',','-','of','is','the'])
 
         
-        ax.plot3D(v[:int(len(v)/3)-1],v[int(len(v)/3):int(2*len(v)/3)-1],v[int(2*len(v)/3)],color=c)
+        ax.scatter(v[:int(len(v)/3)-1],v[int(len(v)/3):int(2*len(v)/3)-1],v[int(2*len(v)/3)],color=c)
 
 plt.title('Test')
  

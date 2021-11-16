@@ -298,6 +298,10 @@ class tm:
         if text == None:
              return -1
         return 206.835-(84.6*tm.get_average_number_of_syllables_per_word(text=text))-(1.015*tm.get_average_words_per_sentence(text=text,replace=True))
+    def get_number_of_short_words(text = None):
+        if text == None:
+            return -1
+        return sum([1 for i in tm.split_in_words(text=text) if len(i)<4])
 
 
 class jsonConverter:                            #to use that damn jsons file
@@ -335,10 +339,11 @@ class jsonConverter:                            #to use that damn jsons file
 
 if __name__ == "__main__":
     #jc = jsonConverter()
-    #f = open("text.txt", "r", encoding="utf8")
-    #text3 = f.read()
-    #f.close()
-    #text3 = tm.replace_characters(text3,['(',')'],[''])
-    print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
+    f = open("text.txt", "r", encoding="utf8")
+    text3 = f.read()
+    f.close()
+    text3 = tm.replace_characters(text3,['(',')'],[''])
+    #print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
+    print(tm.get_number_of_short_words(text=text3))
     #print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
 

@@ -339,7 +339,20 @@ class jsonConverter:                            #to use that damn jsons file
             else:
                 h.append(authors[pos])
         return h
-    
+
+class point:
+    def __init__(self, values=None, usable=True, PointClass=0):
+        self.values = values
+        self.usable = usable
+        self.PointClass = PointClass
+    def dist(self, p):
+        if self.usable and p.usable:
+            return sum([(pow(abs(self.values[i]-p.values[i]),2)) for i in range(len(self.values))])
+        else:
+            print("not usable")
+            return -1
+    def equals(self, p):
+        return (self.values == p.values) and (self.usable == p.usable) and (self.PointClass == p.PointClass)
 
 if __name__ == "__main__":
     #jc = jsonConverter()

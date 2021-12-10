@@ -36,6 +36,8 @@ print(len(paragraphs))
 #fig = plt.figure()
 #ax = plt.axes(projection ='3d')
 
+vectors = []
+
 for p in paragraphs:
     if len(tm.split_in_words(p))>70:
         v = [
@@ -49,14 +51,15 @@ for p in paragraphs:
             
             tm.get_sentence_complexity(text=p,symbol=',',replace=True),
             tm.get_average_number_of_syllables_per_word(text=p),
-            tm.get_word_varianz2(text=p)*25,
+            tm.get_word_varianz2(text=p),
             tm.get_flesch_reading_ease(text=p),
             tm.get_symbol_frequency(text=p,symbols=['\''])[0]               #absolute number of shortings
             ]
         for i in tm.get_relative_symbol_frequency(text=p):
-            v.append(i*50)
+            v.append(i)
         for i in tm.get_relative_number_of_filler_words(text=p,filler_words=['of','is','the']):
-            v.append(i*50)
+            v.append(i)
+        vectors.append(v)
         x = [i for i in range(len(v))]
         c = "green" if h[paragraphs.index(p)-1]=='A1' else "red" if h[paragraphs.index(p)-1]=='A2' else "blue"
         #l = "A1" if h[paragraphs.index(p)-1]=='A1' else "A2" if h[paragraphs.index(p)-1]=='A2' else "A3"

@@ -62,13 +62,15 @@ class tm:
                     if text[i+2].isupper():
                         text=text[:i+1] + '#' + text[i+2:]
         return text.split('#')                                              #trennt text an '#'
-    def split_in_words(text = None):                                        #teilt den gegebenen Text in Wörter
+    def split_in_words(text = None, make_lowercase = False):                                        #teilt den gegebenen Text in Wörter
         if text == None:                                                    #wenn kein Text übergeben wurde -> Error
             return -1
-        things_to_replace = {"-\n", ".", "!", "?", "\"", "\'", "-", ",",";"}#Sonderzeichen die entfernt werden
+        things_to_replace = {"-\n", ".", "!", "?", "\"", "\'", "-", ",",";","(",")"}#Sonderzeichen die entfernt werden
         for i in things_to_replace:
             text = text.replace(i, "")
         text = text.replace("\n"," ")
+        if make_lowercase:
+            text = text.lower()
         return text.split(" ")
     def generate_dictionary(text = None, words = None):                     #erzeugt eine Liste mit allen möglichen Wörtern im Text
         if text == None and words == None:                                  #wenn kein Text übergeben wurde -> Error
@@ -82,8 +84,8 @@ class tm:
     def combine_dictionaries(*dictionaries):                                #kombiniert eine beliebige Anzahl an dictionaries
         if dictionaries == None:                                            #anscheinend unnötig, wird nix übergeben ist dictionaries != None und len(dictionaries)<2
             return -1
-        if len(dictionaries)<2:                                             #ab diesem Punkt war ich zu faul ausführlich zu kommentieren
-            return -1
+        #if len(dictionaries)<2:                                             #ab diesem Punkt war ich zu faul ausführlich zu kommentieren
+        #    return -1
         dictionary = []
         for d in dictionaries:
             dictionary += d
@@ -306,6 +308,15 @@ class tm:
         if text == None:
             return -1
         return sum([1 for i in tm.split_in_words(text=text) if len(i)<4])
+    def contain_number(text = None):
+        if text == None: return -1
+        for i in text:
+            if i.isdigit():
+                return True
+        return False
+    def get_topic(text = None):
+        if text == None: return -1
+        
 
 
 class jsonConverter:                            #to use that damn jsons file
@@ -345,14 +356,26 @@ class point:
         self.values = values
         self.usable = usable
         self.PointClass = PointClass
+    def __dict__(self):
+        mydict = {
+            "values": self.values,
+            "Klasse": self.PointClass
+        }
+        return mydict
+    def __str__(self):
+        return("Values: ", self.values, "usable: ", self.usable, "PointClass: ", self.PointClass)
     def dist(self, p):
-        if self.usable and p.usable:
-            return sum([(pow(abs(self.values[i]-p.values[i]),2)) for i in range(len(self.values))])
-        else:
-            print("not usable")
-            return -1
+        #if self.usable and p.usable:
+        return sum([(pow(abs(self.values[i]-p.values[i]),2)) for i in range(len(self.values))])
+        #else:
+        #    print("not usable")
+        #    return -1
     def equals(self, p):
         return (self.values == p.values) and (self.usable == p.usable) and (self.PointClass == p.PointClass)
+    def changeValues(self, values):
+        if len(self.values) != len(values):
+            return -1
+        self.values = values
 
 if __name__ == "__main__":
     #jc = jsonConverter()

@@ -8,11 +8,13 @@ import rpy2.robjects.packages as rpackages
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 
+from langdetect import detect, DetectorFactory
+
 from hyphenate import hyphenator
 
 class tm:
     
-    packageNames = ('dplyr','tidytext','corpus')
+    packageNames = ('dplyr','tidytext','corpus','topicmodels')
     utils = rpackages.importr('utils')
     if not all(rpackages.isinstalled(x) for x in packageNames):
         utils = rpackages.importr('utils')
@@ -20,6 +22,11 @@ class tm:
         packnames_to_install = [x for x in packageNames if not rpackages.isinstalled(x)]
         if len(packnames_to_install) > 0:
             utils.install_packages(StrVector(packnames_to_install))
+
+    DetectorFactory.seed = 0
+    languages = ['af', 'ar', 'bg', 'bn', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'fa', 'fi', 'fr', 'gu', 'he',
+                 'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko', 'lt', 'lv', 'mk', 'ml', 'mr', 'ne', 'nl', 'no', 'pa', 'pl',
+                 'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']
     
     def remove_special_characters(text = None):                             #ersetzt Umlaute im Text
         if text == None:
@@ -60,12 +67,12 @@ class tm:
             if text[i]=='.' or text[i]=='!' or text[i]=='?':
                 if not text[i-1].isdigit():
                     if text[i+2].isupper():
-                        text=text[:i+1] + '#' + text[i+2:]
-        return text.split('#')                                              #trennt text an '#'
+                        text=text[:i+1] + '#-#' + text[i+2:]
+        return text.split('#-#')                                              #trennt text an '#-#'
     def split_in_words(text = None, make_lowercase = False):                                        #teilt den gegebenen Text in Wörter
         if text == None:                                                    #wenn kein Text übergeben wurde -> Error
             return -1
-        things_to_replace = {"-\n", ".", "!", "?", "\"", "\'", "-", ",",";","(",")"}#Sonderzeichen die entfernt werden
+        things_to_replace = {"-\n", ".", "!", "?", "\"", "\'", "-", ",",";","(",")",":"}#Sonderzeichen die entfernt werden
         for i in things_to_replace:
             text = text.replace(i, "")
         text = text.replace("\n"," ")
@@ -95,11 +102,12 @@ class tm:
     def combine_dictionary_with_frequencies(dictionary = None, frequencies = None):     #kombiniert ein dictionary mit Worthäufigkeiten
         if dictionary == None or frequencies == None:
             return -1
-        combination = []
+       
         if len(dictionary) == len(frequencies):
-            for i in range(len(dictionary)):
-                t = (dictionary[i],frequencies[i])
-                combination.append(t)
+        #    for i in range(len(dictionary)):
+        #        t = (dictionary[i],frequencies[i])
+        #        combination.append(t)
+            combination = [(dictionary[i],frequencies[i]) for i in range(len(dictionary))]
             return combination
         else:
             return -1
@@ -112,13 +120,13 @@ class tm:
             return -1
         if dictionary == None:
             dictionary = tm.generate_dictionary(text)
-        frequency = [0 for i in range(len(dictionary))]
         text=text.lower()
         words = tm.split_in_words(text)
-        for e in words:
-            if e in dictionary:                                             #für den Fall das ein Wort des Textes nicht im dictionary enthalten ist, zB wenn man nur die Häufigkeit bestimmter Wörter sucht
-                pos = dictionary.index(e)
-                frequency[pos] = frequency[pos] + 1
+        frequency = [words.count(i) for i in dictionary]
+        #for e in words:
+        #    if e in dictionary:                                             #für den Fall das ein Wort des Textes nicht im dictionary enthalten ist, zB wenn man nur die Häufigkeit bestimmter Wörter sucht
+        #        pos = dictionary.index(e)
+        #        frequency[pos] = frequency[pos] + 1
             #else:
             #    print(e + " ist nicht in dictionary vorhanden")
         return frequency
@@ -308,14 +316,24 @@ class tm:
         if text == None:
             return -1
         return sum([1 for i in tm.split_in_words(text=text) if len(i)<4])
+    def get_number_of_short_words2(text=None):
+        if text==None: return -1
+        return tm.get_number_of_short_words(text=text)/len(tm.split_in_words(text=text))
     def contain_number(text = None):
         if text == None: return -1
-        for i in text:
-            if i.isdigit():
-                return True
-        return False
+        return any(i.isdigit() for i in text)
+    def get_language(text=None):
+        if text == None: return -1
+        languages = ['af', 'ar', 'bg', 'bn', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'fa', 'fi', 'fr', 'gu', 'he',
+                     'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko', 'lt', 'lv', 'mk', 'ml', 'mr', 'ne', 'nl', 'no', 'pa', 'pl',
+                     'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']
+        return languages.index(detect(text))
     def get_topic(text = None):
         if text == None: return -1
+        #robjects.r('''
+        #library(topicmodels)
+        #ap_lda = 
+        #''')
         
 
 

@@ -1,3 +1,9 @@
+"""
+    This Code provide some simple functions for feature extraction from text.
+
+    Leon D. Wutke, Dec. 2021.
+"""
+
 # -*- coding: utf-8 -*-
 
 import string
@@ -29,19 +35,17 @@ class tm:
                  'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']
     
     def remove_special_characters(text = None):                             #ersetzt Umlaute im Text
-        if text == None:
-            return -1
+        if text == None: return -1
         special_character = ["ä", "Ä", "ö", "Ö", "ü", "Ü", "ß"]             #zu ersetzende Umlaute
         replace_with = ["ae", "Ae", "oe", "Oe", "ue", "Ue", "ss"]           #womit die Umlaute ersetzt werden sollen
         if len(special_character) == len(replace_with):                     
             for i in range(len(special_character)):
                 text = text.replace(special_character[i],replace_with[i])
+            return text
         else:
             return -1
-        return text
     def replace_characters(text = None, to_replace = {''}, replace_with = {''}):        #ersetzt Zeichen
-        if text == None:
-            return -1
+        if text == None: return -1
         i = 0
         while len(replace_with)<len(to_replace):
             replace_with.append(replace_with[i%len(replace_with)])
@@ -49,13 +53,11 @@ class tm:
         for i in range(len(to_replace)):
             text = text.replace(to_replace[i],replace_with[i])
         return text
-    def split_in_paragraphes(text = None):                                  #teilt den gegebenen Text in Paragraphen
-        if text == None:                                                    #wenn kein Text übergeben wurde -> Error 
-            return -1
-        return text.split('\n\n')
+    def split_in_paragraphes(text = None, sep='\n\n'):                                  #teilt den gegebenen Text in Paragraphen
+        if text == None: return -1
+        return text.split(sep)
     def split_in_sentences(text = None, replace = False):                   #teilt den gegebenen Text in Sätze
-        if text == None:                                                    #wenn kein Text übergeben wurde -> Error
-            return -1
+        if text == None: return -1
         to_replace_with_nothing = {chr(8220), chr(8222)}
         to_replace_with_space = {"\n",'  '}
         if replace:
@@ -63,15 +65,14 @@ class tm:
                 text = text.replace(e,'')
             for e in to_replace_with_space:
                 text = text.replace(e,' ')
-        for i in range(len(text)-3):                                        #ersetzt das Ende jedes Satzes mit '#'
+        for i in range(len(text)-3):                                        #ersetzt das Ende jedes Satzes mit '#-#'
             if text[i]=='.' or text[i]=='!' or text[i]=='?':
                 if not text[i-1].isdigit():
                     if text[i+2].isupper():
                         text=text[:i+1] + '#-#' + text[i+2:]
         return text.split('#-#')                                              #trennt text an '#-#'
     def split_in_words(text = None, make_lowercase = False):                                        #teilt den gegebenen Text in Wörter
-        if text == None:                                                    #wenn kein Text übergeben wurde -> Error
-            return -1
+        if text == None: return -1
         things_to_replace = {"-\n", ".", "!", "?", "\"", "\'", "-", ",",";","(",")",":"}#Sonderzeichen die entfernt werden
         for i in things_to_replace:
             text = text.replace(i, "")
@@ -80,8 +81,7 @@ class tm:
             text = text.lower()
         return text.split(" ")
     def generate_dictionary(text = None, words = None):                     #erzeugt eine Liste mit allen möglichen Wörtern im Text
-        if text == None and words == None:                                  #wenn kein Text übergeben wurde -> Error
-            return -1
+        if text == None and words == None: return -1
         if words == None:                                                   #wenn eine Liste mit Wörtern übergeben wird, wird das nicht mehr gebraucht
             text = text.lower()
             words = tm.split_in_words(text)
@@ -89,8 +89,7 @@ class tm:
         words.sort()
         return words
     def combine_dictionaries(*dictionaries):                                #kombiniert eine beliebige Anzahl an dictionaries
-        if dictionaries == None:                                            #anscheinend unnötig, wird nix übergeben ist dictionaries != None und len(dictionaries)<2
-            return -1
+        if dictionaries == None: return -1
         #if len(dictionaries)<2:                                             #ab diesem Punkt war ich zu faul ausführlich zu kommentieren
         #    return -1
         dictionary = []
@@ -100,8 +99,7 @@ class tm:
         dictionary.sort()
         return dictionary
     def combine_dictionary_with_frequencies(dictionary = None, frequencies = None):     #kombiniert ein dictionary mit Worthäufigkeiten
-        if dictionary == None or frequencies == None:
-            return -1
+        if dictionary == None or frequencies == None: return -1
        
         if len(dictionary) == len(frequencies):
         #    for i in range(len(dictionary)):
@@ -112,12 +110,10 @@ class tm:
         else:
             return -1
     def get_number_of_sentences(text = None, replace = False):                               #gibt die Anzahl von Sätzen in einem Text zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         return len(tm.split_in_sentences(text=text,replace=replace))
     def get_word_frequency(text = None, dictionary = None):                 #errechnet die Worthäufigkeit eines Textes
-        if text == None:
-            return -1
+        if text == None: return -1
         if dictionary == None:
             dictionary = tm.generate_dictionary(text)
         text=text.lower()
@@ -131,78 +127,69 @@ class tm:
             #    print(e + " ist nicht in dictionary vorhanden")
         return frequency
     def get_relative_word_frequency(text = None, dictionary = None):        #errechnet die relative Worthäufigkeit
-        if text == None:
-            return -1
+        if text == None: return -1
         frequency = tm.get_word_frequency(text, dictionary)
         now1 = len(frequency)                   #number of words that are counted in frequency
         now2 = len(tm.split_in_words(text))     #number of all words in the text
         rel_frequency = [0 for i in range(now1)]
-        for i in range(now1):
-            rel_frequency[i] = frequency[i] / now2
+        #for i in range(now1):
+        #    rel_frequency[i] = frequency[i] / now2
+        rel_frequency = [frequency[i] / now2 for i in range(now1)]
         return rel_frequency
     def get_average_word_length(text = None):                               #gibt die durchschnittliche Wortlänge zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         words = tm.split_in_words(text)
-        l = 0
-        for w in words:
-            l += len(w)
+        l = sum([len(i) for i in words])
+        #for w in words:
+        #    l += len(w)
         return l/len(words)
     def get_number_of_words(text = None):                                   #gibt die Anzahl der Wörter in einem Text zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         return len(tm.split_in_words(text))
     def get_average_words_per_sentence(text = None,replace=False):                        #gibt die durchschnittliche Anzahl an Wörtern pro Satz zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         sentences = tm.split_in_sentences(text=text,replace=replace)
-        l_sentences = 0
-        for s in sentences:
-            w = tm.split_in_words(s)
-            l_sentences += len(w)
-        return l_sentences / len(sentences)
+        #l_sentences = sum([len(tm.split_in_words(s)) for s in sentences])
+        #for s in sentences:
+        #    w = tm.split_in_words(s)
+        #    l_sentences += len(w)
+        return sum([len(tm.split_in_words(s)) for s in sentences]) / len(sentences)
     def get_letter_frequency(text = None):                                  #gibt die Buchstaben Häufigkeit zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         alphabet = string.ascii_letters[:26]
         text = text.lower()
-        frequency = [0 for i in range(26)]
-        for l in text:
-            if l in alphabet:
-                pos = alphabet.index(l)
-                frequency[pos] += 1
-        return frequency
+        #frequency = [0 for i in range(26)]
+        #for l in text:
+        #    if l in alphabet:
+        #        pos = alphabet.index(l)
+        #        frequency[pos] += 1
+        return [text.count(i) for i in alphabet]
     def get_rel_letter_frequency(text = None):                              #gibt die relative Buchstabenhäufigkeit zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         frequency = tm.get_letter_frequency(text)
-        rel_frequency = [0 for i in range(26)]
-        l = 0
-        for i in frequency:
-            l += i
-        for i in range(26):
-            rel_frequency[i] = frequency[i] / l
-        return rel_frequency
+        l = sum(frequency)
+        #for i in frequency:
+        #    l += i
+        #for i in range(26):
+        #    rel_frequency[i] = frequency[i] / l
+        return [frequency[i] / l for i in range(26)]
     def get_symbols(text = None, symbols = [".","!","?",",","-"]):          #gibt alle Sonderzeichen im Text zurück
-        if text == None:
-            return -1
-        found_symbols = []
-        for z in text:
-            if z in symbols:
-                found_symbols.append(z)
-        return found_symbols
+        if text == None: return -1
+        #found_symbols = []
+        #for z in text:
+        #    if z in symbols:
+        #        found_symbols.append(z)
+        return [z for z in text if z in symbols]
     def get_symbol_frequency(text = None, symbols = [".","!","?",",","-"]): #gibt die Häufigkeit der Sonderzeichen zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         symbol_marker = tm.get_symbols(text, symbols)     
-        frequency = [0 for i in range(len(symbols))]
-        for e in symbol_marker:
-            pos = symbols.index(e)
-            frequency[pos] = frequency[pos] + 1
+        frequency = [symbol_marker.count(i) for i in symbols]
+        #for e in symbol_marker:
+        #    pos = symbols.index(e)
+        #    frequency[pos] = frequency[pos] + 1
         return frequency
     def get_relative_symbol_frequency(text = None, symbols = [".","!","?",",","-"]):#gibt die relative Häufigkeit der Sonderzeichen zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         frequency = tm.get_symbol_frequency(text, symbols);
         nos1 = len(frequency)                       #number of symbols that are counted in frequency
         nos2 = len(tm.get_symbols(text, symbols))   #number of all symbols in the text
@@ -214,15 +201,14 @@ class tm:
                 rel_frequency[i] = 0
         return rel_frequency
     def get_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):   #gibt eine Liste mit Häufigkeiten wieder in denen ein bestimmtes Zeichen in Reihe auftritt
-        if text == None:
-            return -1
+        if text == None: return -1
         if not symbol in symbols:       #das gesuchte symbol kann nicht gefunden werden
             return -1
         if not symbol in text:          #des gesuchte symbol ist nicht im Text vorhanden
             return 0
-        print(text)
+        #print(text)
         symbol_marker = tm.get_symbols(text, symbols)
-        print(symbol_marker)
+        #print(symbol_marker)
         nosir = []          #number of symbols in row
         h = 0
         for i in range(len(symbol_marker)):
@@ -235,19 +221,17 @@ class tm:
         nosir.append(h)
         return nosir
     def get_average_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):        #gibt die durschnittlich Häufigkeit eines bestimmten Zeichens in Reihe zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         nosir = tm.get_number_of_symbol_in_row(text, symbol, symbols)
         if not (nosir == 0 or nosir == -1):         #get_number_of_symbol_in_row() liefert keinen Fehler zurück
-            h = 0
-            for e in nosir:
-                h += e
-            return h/len(nosir)
+            #h = 0
+            #for e in nosir:
+            #    h += e
+            return sum(nosir)/len(nosir)
         else:
             return -1
     def get_syntagmas(text = None, position = -1, dictionary = None):       #gibt alle Syntagmas (position) eines Textes zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         text = text.lower()
         if dictionary == None:
             dictionary = tm.generate_dictionary(text)
@@ -262,59 +246,50 @@ class tm:
                     syntagma.append(t)
         return syntagma
     def get_sentence_complexity(text = None, symbol = ",", replace = False):            #gibt die Satzkomplexität zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         h = tm.get_symbol_frequency(text = text, symbols = symbol)[0]
         return h/tm.get_number_of_sentences(text)
     def get_sentence_complexity2(text = None, symbol = ",", replace = False):            #gibt die Satzkomplexität zurück
-        if text == None:
-            return -1
+        if text == None: return -1
         return tm.get_sentence_complexity(text=text,symbol=symbol,replace=replace) * (sum(tm.get_symbol_frequency(text=text))/tm.get_number_of_sentences(text=text,replace=replace))
     def get_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):     #gibt die Anzahl der gegebenen Füllwörter zurück 
-        if text == None or len(filler_words)<1:
-            return -1
+        if text == None or len(filler_words)<1: return -1
         return tm.get_word_frequency(text=text,dictionary=filler_words)
     def get_relative_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):          #gibt die relative Anzahl der gegebenen Füllwörter zurück
-        if text == None or len(filler_words)<1:
-            return -1
+        if text == None or len(filler_words)<1: return -1
         return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
     def get_sentence_length(text = None, replace = False):
-        if text == None:
-            return -1
-        s = tm.split_in_sentences(text=text,replace=replace)
-        l = []
-        for i in s:
-            l.append(len(i))
-        return l
+        if text == None: return -1
+        #s = tm.split_in_sentences(text=text,replace=replace)
+        #l = [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
+        #for i in s:
+        #    l.append(len(i))
+        return [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
     def get_relative_sentence_length(text=None,replace=False):
-        if text == None:
-            return -1
-        l = tm.get_sentence_length(text=text,replace=replace)
-        h = 0
-        for i in l:
-            h+=i
-        return h/tm.get_number_of_sentences(text=text,replace=replace)
+        if text == None: return -1
+        #l = tm.get_sentence_length(text=text,replace=replace)
+        #h = 0
+        #for i in l:
+        #    h+=i
+        return sum(tm.get_sentence_length(text=text,replace=replace))/tm.get_number_of_sentences(text=text,replace=replace)
     def get_average_number_of_syllables_per_word(text=None):
-        if text == None:
-            return -1
+        if text == None: return -1
         words = tm.split_in_words(text=text)
-        h = 0
-        for w in words:
-            h += len(hyphenator.hyphenate_word(w))
-        return h/len(words)
+        #h = sum([hyphenator.hyphenate_word(w) for w in words])
+        #for w in words:
+        #    h += len(hyphenator.hyphenate_word(w))
+        return sum([hyphenator.hyphenate_word(w) for w in words])/len(words)
     def get_word_varianz(text = None):
-        if text == None:
-            return -1
+        if text == None: return -1
         return len(tm.generate_dictionary(text=text))
     def get_word_varianz2(text = None):
+        if text == None: return -1
         return 1/((1/tm.get_word_varianz(text=text))*len(tm.split_in_words(text=text)))
     def get_flesch_reading_ease(text=None):
-        if text == None:
-             return -1
+        if text == None: return -1
         return 206.835-(84.6*tm.get_average_number_of_syllables_per_word(text=text))-(1.015*tm.get_average_words_per_sentence(text=text,replace=True))
     def get_number_of_short_words(text = None):
-        if text == None:
-            return -1
+        if text == None: return -1
         return sum([1 for i in tm.split_in_words(text=text) if len(i)<4])
     def get_number_of_short_words2(text=None):
         if text==None: return -1

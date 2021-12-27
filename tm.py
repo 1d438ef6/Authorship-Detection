@@ -131,7 +131,7 @@ class tm:
         frequency = tm.get_word_frequency(text, dictionary)
         now1 = len(frequency)                   #number of words that are counted in frequency
         now2 = len(tm.split_in_words(text))     #number of all words in the text
-        rel_frequency = [0 for i in range(now1)]
+        #rel_frequency = [0 for i in range(now1)]
         #for i in range(now1):
         #    rel_frequency[i] = frequency[i] / now2
         rel_frequency = [frequency[i] / now2 for i in range(now1)]

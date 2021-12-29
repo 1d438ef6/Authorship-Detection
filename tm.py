@@ -139,10 +139,10 @@ class tm:
     def get_average_word_length(text = None):                               #gibt die durchschnittliche Wortlänge zurück
         if text == None: return -1
         words = tm.split_in_words(text)
-        l = sum([len(i) for i in words])
+        #l = 0
         #for w in words:
         #    l += len(w)
-        return l/len(words)
+        return sum([len(i) for i in words])/len(words)
     def get_number_of_words(text = None):                                   #gibt die Anzahl der Wörter in einem Text zurück
         if text == None: return -1
         return len(tm.split_in_words(text))
@@ -258,27 +258,27 @@ class tm:
     def get_relative_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):          #gibt die relative Anzahl der gegebenen Füllwörter zurück
         if text == None or len(filler_words)<1: return -1
         return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
-    def get_sentence_length(text = None, replace = False):
+    def get_sentence_length(text = None, replace = False):                          #gibt array mit allen satzlängen zurück
         if text == None: return -1
         #s = tm.split_in_sentences(text=text,replace=replace)
         #l = [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
         #for i in s:
         #    l.append(len(i))
         return [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
-    def get_relative_sentence_length(text=None,replace=False):
+    def get_relative_sentence_length(text=None,replace=False):                      #gibt satzlänge relativ zur satzanzahl zurück
         if text == None: return -1
         #l = tm.get_sentence_length(text=text,replace=replace)
         #h = 0
         #for i in l:
         #    h+=i
         return sum(tm.get_sentence_length(text=text,replace=replace))/tm.get_number_of_sentences(text=text,replace=replace)
-    def get_average_number_of_syllables_per_word(text=None):
+    def get_average_number_of_syllables_per_word(text=None):                                    #gibt durchschnittliche silbenanzahl pro wort zurück
         if text == None: return -1
         words = tm.split_in_words(text=text)
         #h = sum([hyphenator.hyphenate_word(w) for w in words])
         #for w in words:
         #    h += len(hyphenator.hyphenate_word(w))
-        return sum([hyphenator.hyphenate_word(w) for w in words])/len(words)
+        return sum([len(hyphenator.hyphenate_word(w)) for w in words])/len(words)
     def get_word_varianz(text = None):
         if text == None: return -1
         return len(tm.generate_dictionary(text=text))
@@ -326,7 +326,7 @@ class jsonConverter:                            #to use that damn jsons file
     def get_number_of_authors(self):            #gibt Daten aus der json zurück
         return self.data["authors"]
     def get_structure(self):
-        return self.data["structure"]
+        return self.data["structure"]  
     def get_multi_author(self):
         return self.data["multi-author"]
     def get_changes(self):

@@ -6,13 +6,15 @@ Softwarprojekt an der HS Mittweida, Studiengang Allgemeine und Digitale Forensik
 ## Task
 
 Erkennen welche Absätze in einem Dokument vom gleichen und welche von unterschiedlichen Autoren geschrieben wurden. <br />
-Außerdem: ein kleines bisschen Topic-Mining
 
 ## Usage
 
-für Text-Mining: <br />
-```from tm import tm``` <br />
-Anschließend können alle in tm.py enthaltenen Funktionen wie folgt aufgerufen werden:<br /> 
-```tm.function_name()```<br />
-
-
+Datei random_forest1.py ausführen um die Lösungsdateien zu erzeugen, die Pfade müssen höchstwahrscheinlich angepasst werden.
+Vorheriges installieren folgender Bibliotheken notwendig (pip install Bibliotheksname):
+-rpy2
+-langdetect
+-pandas
+-numpy
+-matplotlib
+-sklearn
+-joblib

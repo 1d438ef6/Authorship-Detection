@@ -11,10 +11,10 @@ Erkennen welche Absätze in einem Dokument vom gleichen und welche von unterschi
 
 Datei random_forest1.py ausführen um die Lösungsdateien zu erzeugen, die Pfade müssen höchstwahrscheinlich angepasst werden.
 Vorheriges installieren folgender Bibliotheken notwendig (pip install Bibliotheksname):
--rpy2
--langdetect
--pandas
--numpy
--matplotlib
--sklearn
--joblib
+- rpy2
+- langdetect
+- pandas
+- numpy
+- matplotlib
+- sklearn
+- joblib

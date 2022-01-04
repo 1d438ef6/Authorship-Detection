@@ -11,9 +11,9 @@ from os.path import exists, isdir
 
 fehlend = [48, 6083, 6088, 2090, 2132, 6379, 6424, 6471, 6620, 6678, 4781, 6764, 4849, 6784, 4867, 6831, 6834, 4939, 6897, 6901, 5011, 6946, 6949, 5052, 6984, 5067, 5074, 7006, 5088, 7022, 5135, 5137, 7101, 5196, 7165, 1369, 1418, 5402, 5403, 7388, 7432, 7443, 1559, 1563, 7475, 5533, 7482, 7499, 1618, 3196, 3197, 3204, 7527, 3238, 7581, 3246, 3248, 5639, 7588, 7616, 7619, 3285, 7633, 3306, 7670, 7678, 3331, 5741, 7689, 5748, 3338, 7737, 3392, 7758, 7761, 7775, 7787, 5854, 7794, 7806, 5876, 5880, 7827, 7838, 1951, 7884, 7887, 5948, 7897, 7899, 7904, 7905, 7915, 7917, 7963, 7981, 7985, 7998, 8019, 8021, 8031, 8047, 8060, 8063, 8064, 8074, 8077, 8116]
 
-def get_features(text=None,model=None):                                             #gibt die features für einen text zurück
+def get_features(text=None,generate_feature=False,model=None):                                             #gibt die features für einen text zurück
     if text is None: return -1
-    if model is None: rfc=joblib.load('rfc_model_test.pkl')
+    if model is None and generate_feature: rfc=joblib.load('rfc_model_test.pkl')
     else: rfc=model
     v = [
         #Lexical
@@ -36,8 +36,9 @@ def get_features(text=None,model=None):                                         
         v.append(i)
     for i in tm.get_relative_number_of_filler_words(text=text,filler_words=['of','is','the']):
         v.append(i)
-    temp_h=rfc.predict(pd.DataFrame([v],columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the']))
-    v.append(1 if temp_h=='A1' else 2 if temp_h=='A2' else 3)
+    if generate_feature:
+        temp_h=rfc.predict(pd.DataFrame([v],columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the']))
+        v.append(1 if temp_h=='A1' else 2 if temp_h=='A2' else 3)
     return v
 
 def get_diff(a1,a2,b=[]):                                                   #gibt die differenz zwischen 2 feature-listen zurück
@@ -293,7 +294,7 @@ print('start')
 
 #val_fehlend = []
 for i in range(598,4078):
-    #continue
+    continue
     print(i)
     try:
         p2 = f"D:/Studium/Softwareprojekt/validation/validation/dataset-wide/problem-{i}.txt"
@@ -310,6 +311,23 @@ for i in range(598,4078):
     except:
         #val_fehlend.append(i)
         print("error")
+x=[]
+for i in range(1,8138):
+    print(i)
+    if i in fehlend: continue
+    try:
+        p1 = f"D:/Studium/Softwareprojekt/train/train/dataset-wide/truth-problem-{i}.json"
+        p2 = f"D:/Studium/Softwareprojekt/train/train/dataset-wide/problem-{i}.txt"
+        with open(p1) as jsonFile:
+            n = json.load(jsonFile)['authors']
+        with open(p2,'r',encoding="utf8") as f:
+            text = f.read()
+        v = get_features(text)
+        v.append(n)
+        x.append(v)
+    except:
+        print("ERROR")
+pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','class']).to_csv('feature_save4')
 #with open("val_fehlend.txt",'w',encoding="utf8") as f:
 #    f.write(str(val_fehlend))
 #best_acc=0

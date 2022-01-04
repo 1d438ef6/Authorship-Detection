@@ -10,8 +10,8 @@ freq_per_doc.txt
 freq_per_doc
 freq_per_doc.json
 freq_of_all_words.txt
-feature_save3.csv
-feature_save2.csv
-feature_save1.csv
 all_docs.txt
+__pycache__/tm.cpython-37.pyc
+val_fehlend.txt
+rfc_model_final.pkl
 __pycache__/tm.cpython-37.pyc

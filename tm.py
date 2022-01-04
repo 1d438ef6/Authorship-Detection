@@ -19,7 +19,8 @@ from langdetect import detect, DetectorFactory
 from hyphenate import hyphenator
 
 class tm:
-    
+
+    #R-Zeugs was vermutlich irrelevant ist, da meine Textmining Funktionen besser sind
     packageNames = ('dplyr','tidytext','corpus','topicmodels')
     utils = rpackages.importr('utils')
     if not all(rpackages.isinstalled(x) for x in packageNames):
@@ -102,9 +103,6 @@ class tm:
         if dictionary == None or frequencies == None: return -1
        
         if len(dictionary) == len(frequencies):
-        #    for i in range(len(dictionary)):
-        #        t = (dictionary[i],frequencies[i])
-        #        combination.append(t)
             combination = [(dictionary[i],frequencies[i]) for i in range(len(dictionary))]
             return combination
         else:
@@ -119,29 +117,17 @@ class tm:
         text=text.lower()
         words = tm.split_in_words(text)
         frequency = [words.count(i) for i in dictionary]
-        #for e in words:
-        #    if e in dictionary:                                             #für den Fall das ein Wort des Textes nicht im dictionary enthalten ist, zB wenn man nur die Häufigkeit bestimmter Wörter sucht
-        #        pos = dictionary.index(e)
-        #        frequency[pos] = frequency[pos] + 1
-            #else:
-            #    print(e + " ist nicht in dictionary vorhanden")
         return frequency
     def get_relative_word_frequency(text = None, dictionary = None):        #errechnet die relative Worthäufigkeit
         if text == None: return -1
         frequency = tm.get_word_frequency(text, dictionary)
         now1 = len(frequency)                   #number of words that are counted in frequency
         now2 = len(tm.split_in_words(text))     #number of all words in the text
-        #rel_frequency = [0 for i in range(now1)]
-        #for i in range(now1):
-        #    rel_frequency[i] = frequency[i] / now2
         rel_frequency = [frequency[i] / now2 for i in range(now1)]
         return rel_frequency
     def get_average_word_length(text = None):                               #gibt die durchschnittliche Wortlänge zurück
         if text == None: return -1
         words = tm.split_in_words(text)
-        #l = 0
-        #for w in words:
-        #    l += len(w)
         return sum([len(i) for i in words])/len(words)
     def get_number_of_words(text = None):                                   #gibt die Anzahl der Wörter in einem Text zurück
         if text == None: return -1
@@ -149,44 +135,24 @@ class tm:
     def get_average_words_per_sentence(text = None,replace=False):                        #gibt die durchschnittliche Anzahl an Wörtern pro Satz zurück
         if text == None: return -1
         sentences = tm.split_in_sentences(text=text,replace=replace)
-        #l_sentences = sum([len(tm.split_in_words(s)) for s in sentences])
-        #for s in sentences:
-        #    w = tm.split_in_words(s)
-        #    l_sentences += len(w)
         return sum([len(tm.split_in_words(s)) for s in sentences]) / len(sentences)
     def get_letter_frequency(text = None):                                  #gibt die Buchstaben Häufigkeit zurück
         if text == None: return -1
         alphabet = string.ascii_letters[:26]
         text = text.lower()
-        #frequency = [0 for i in range(26)]
-        #for l in text:
-        #    if l in alphabet:
-        #        pos = alphabet.index(l)
-        #        frequency[pos] += 1
         return [text.count(i) for i in alphabet]
     def get_rel_letter_frequency(text = None):                              #gibt die relative Buchstabenhäufigkeit zurück
         if text == None: return -1
         frequency = tm.get_letter_frequency(text)
         l = sum(frequency)
-        #for i in frequency:
-        #    l += i
-        #for i in range(26):
-        #    rel_frequency[i] = frequency[i] / l
         return [frequency[i] / l for i in range(26)]
     def get_symbols(text = None, symbols = [".","!","?",",","-"]):          #gibt alle Sonderzeichen im Text zurück
         if text == None: return -1
-        #found_symbols = []
-        #for z in text:
-        #    if z in symbols:
-        #        found_symbols.append(z)
         return [z for z in text if z in symbols]
     def get_symbol_frequency(text = None, symbols = [".","!","?",",","-"]): #gibt die Häufigkeit der Sonderzeichen zurück
         if text == None: return -1
         symbol_marker = tm.get_symbols(text, symbols)     
         frequency = [symbol_marker.count(i) for i in symbols]
-        #for e in symbol_marker:
-        #    pos = symbols.index(e)
-        #    frequency[pos] = frequency[pos] + 1
         return frequency
     def get_relative_symbol_frequency(text = None, symbols = [".","!","?",",","-"]):#gibt die relative Häufigkeit der Sonderzeichen zurück
         if text == None: return -1
@@ -206,9 +172,7 @@ class tm:
             return -1
         if not symbol in text:          #des gesuchte symbol ist nicht im Text vorhanden
             return 0
-        #print(text)
         symbol_marker = tm.get_symbols(text, symbols)
-        #print(symbol_marker)
         nosir = []          #number of symbols in row
         h = 0
         for i in range(len(symbol_marker)):
@@ -224,9 +188,6 @@ class tm:
         if text == None: return -1
         nosir = tm.get_number_of_symbol_in_row(text, symbol, symbols)
         if not (nosir == 0 or nosir == -1):         #get_number_of_symbol_in_row() liefert keinen Fehler zurück
-            #h = 0
-            #for e in nosir:
-            #    h += e
             return sum(nosir)/len(nosir)
         else:
             return -1
@@ -260,50 +221,39 @@ class tm:
         return tm.get_relative_word_frequency(text=text,dictionary=filler_words)
     def get_sentence_length(text = None, replace = False):                          #gibt array mit allen satzlängen zurück
         if text == None: return -1
-        #s = tm.split_in_sentences(text=text,replace=replace)
-        #l = [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
-        #for i in s:
-        #    l.append(len(i))
         return [len(i) for i in tm.split_in_sentences(text=text,replace=replace)]
     def get_relative_sentence_length(text=None,replace=False):                      #gibt satzlänge relativ zur satzanzahl zurück
         if text == None: return -1
-        #l = tm.get_sentence_length(text=text,replace=replace)
-        #h = 0
-        #for i in l:
-        #    h+=i
         return sum(tm.get_sentence_length(text=text,replace=replace))/tm.get_number_of_sentences(text=text,replace=replace)
     def get_average_number_of_syllables_per_word(text=None):                                    #gibt durchschnittliche silbenanzahl pro wort zurück
         if text == None: return -1
         words = tm.split_in_words(text=text)
-        #h = sum([hyphenator.hyphenate_word(w) for w in words])
-        #for w in words:
-        #    h += len(hyphenator.hyphenate_word(w))
         return sum([len(hyphenator.hyphenate_word(w)) for w in words])/len(words)
-    def get_word_varianz(text = None):
+    def get_word_varianz(text = None):                                              #gibt die anzahl verwendeter wörter zurück (Wortvarianz)
         if text == None: return -1
         return len(tm.generate_dictionary(text=text))
-    def get_word_varianz2(text = None):
+    def get_word_varianz2(text = None):                                             #gibt die Wortvarianz gewichtet auf die textlänge zurück
         if text == None: return -1
         return 1/((1/tm.get_word_varianz(text=text))*len(tm.split_in_words(text=text)))
-    def get_flesch_reading_ease(text=None):
+    def get_flesch_reading_ease(text=None):                                         #gibt den Flesch reading ease zurück
         if text == None: return -1
         return 206.835-(84.6*tm.get_average_number_of_syllables_per_word(text=text))-(1.015*tm.get_average_words_per_sentence(text=text,replace=True))
-    def get_number_of_short_words(text = None):
+    def get_number_of_short_words(text = None):                                     #gibt die anzahl kurzer wörter zurück                         
         if text == None: return -1
         return sum([1 for i in tm.split_in_words(text=text) if len(i)<4])
-    def get_number_of_short_words2(text=None):
+    def get_number_of_short_words2(text=None):                                      #gibt die anzahl kurzer wörter gewichtet auf textlänge zurück
         if text==None: return -1
         return tm.get_number_of_short_words(text=text)/len(tm.split_in_words(text=text))
-    def contain_number(text = None):
+    def contain_number(text = None):                                                #gibt zurück ob ein text zahlen beinhaltet
         if text == None: return -1
         return any(i.isdigit() for i in text)
-    def get_language(text=None):
+    def get_language(text=None):                                                    #gibt die sprache eines textes zurück
         if text == None: return -1
         languages = ['af', 'ar', 'bg', 'bn', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'fa', 'fi', 'fr', 'gu', 'he',
                      'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko', 'lt', 'lv', 'mk', 'ml', 'mr', 'ne', 'nl', 'no', 'pa', 'pl',
                      'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']
         return languages.index(detect(text))
-    def get_topic(text = None):
+    def get_topic(text = None):                                                     #gibt das topic eines textes zurück (zukünftig)
         if text == None: return -1
         #robjects.r('''
         #library(topicmodels)

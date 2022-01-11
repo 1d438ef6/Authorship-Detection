@@ -77,7 +77,7 @@ def train_new_model(path_to_feature_save=None, n_of_trees=50):                  
     rfc.fit(X_train,y_train)
     return rfc
 
-def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None,diff=False):       #generiert ein dataframe mit features für jeden paragraphen
+def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None,diff=False,model=None,generate_feature=False):       #generiert ein dataframe mit features für jeden paragraphen
     if path_to_dataset is None or not isdir(path_to_dataset): return -1
     if start is None or stop is None: return -1
     if fehlend is None: fehlend=[]
@@ -114,16 +114,18 @@ def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None
                     if paragraphs.index(p)<len(paragraphs)-1:
                         p1 = p
                         p2 = paragraphs[paragraphs.index(p)+1]
-                        v=get_diff(get_features(p1),get_features(p2),[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
+                        v=get_diff(get_features(text=p1,generate_feature=generate_feature,model=model),get_features(text=p2,generate_feature=generate_feature,model=model),[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
                         v.append(0 if h[paragraphs.index(p)]==h[paragraphs.index(p)+1] else 1)
                 
                         x.append(v)    
 
             else:
                 for p in range(len(paragraphs)):
-                    if len(tm.split_in_words(paragraphs[p]))>70:
-                        v = get_features(paragraphs[p])
+                    if len(tm.split_in_words(paragraphs[p]))>0:
+                        v = get_features(text=paragraphs[p],generate_feature=generate_feature,model=model)
                         v.append(h[p])
+                        v.append(e)
+                        x.append(v)
         except Exception:
             traceback.print_exc()
             if e==start:
@@ -311,9 +313,32 @@ for i in range(598,4078):
     except:
         #val_fehlend.append(i)
         print("error")
+
+#authors, structure, multi-author, changes
+richtig = [0,0,0,0]
+docs = 0
+for i in range(1,4078):
+    #print(i)
+    continue
+    try:
+        with open(f"D:/Studium/Softwareprojekt/validation/validation/dataset-wide/truth-problem-{i}.json") as jsonFile:
+            data1 = json.load(jsonFile)
+        with open(f"D:/Studium/Softwareprojekt/validation/validation/solution-wide/solution-{i}.json") as f:
+            data2 = json.load(f)
+        richtig[0] += 1 if data1['authors']==data2['authors'] else 0
+        richtig[1] += 1 if data1['structure']==data2['structure'] else 0
+        richtig[2] += 1 if data1['multi-author']==data2['multi-author'] else 0
+        richtig[3] += 1 if data1['changes']==data2['changes'] else 0
+        docs += 1 if data1['authors']==data2['authors'] and data1['structure']==data2['structure'] and data1['multi-author']==data2['multi-author'] and data1['changes']==data2['changes'] else 0
+    except:
+        print("ERROR")
+print(richtig)
+print(docs)
+
 x=[]
 for i in range(1,8138):
-    print(i)
+    #print(i)
+    continue
     if i in fehlend: continue
     try:
         p1 = f"D:/Studium/Softwareprojekt/train/train/dataset-wide/truth-problem-{i}.json"
@@ -322,12 +347,15 @@ for i in range(1,8138):
             n = json.load(jsonFile)['authors']
         with open(p2,'r',encoding="utf8") as f:
             text = f.read()
+        text = text.replace('\n\n',' ')
         v = get_features(text)
         v.append(n)
         x.append(v)
     except:
         print("ERROR")
-pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','class']).to_csv('feature_save4')
+#a=pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','class','doc'])
+#print(a)
+#a.to_csv('feature_save4.csv')
 #with open("val_fehlend.txt",'w',encoding="utf8") as f:
 #    f.write(str(val_fehlend))
 #best_acc=0
@@ -344,7 +372,12 @@ pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl'
 #print(X_test)
 #print('---------------')
 #print(y_test)
-#generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/validation/validation/dataset-wide",start=1,stop=4078,fehlend=None,diff=True).to_csv('feature_save_val.csv')
+a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/train/train/dataset-wide",start=1,stop=7138,fehlend=None)
+a.to_csv('feature_save4_1.csv')
+#df1 = pd.read_csv('feature_save3.csv')
+#df1.append(df2)
+#print(df1)
+#df1.to_csv('feature_save5.csv')
 #test=pd.read_csv('feature_save_val.csv')
 #del test['class']
 #del test['Unnamed: 0']

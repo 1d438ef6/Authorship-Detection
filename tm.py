@@ -295,7 +295,7 @@ class jsonConverter:                            #to use that damn jsons file
         return h
 
 class point:
-    def __init__(self, values=None, usable=True, PointClass=0):
+    def __init__(self, values:list=None, usable:bool=True, PointClass:int=0):
         self.values = values
         self.usable = usable
         self.PointClass = PointClass
@@ -307,26 +307,28 @@ class point:
         return mydict
     def __str__(self):
         return("Values: ", self.values, "usable: ", self.usable, "PointClass: ", self.PointClass)
-    def dist(self, p):
+    def dist(self, p) -> float:
         #if self.usable and p.usable:
         return sum([(pow(abs(self.values[i]-p.values[i]),2)) for i in range(len(self.values))])
         #else:
         #    print("not usable")
         #    return -1
-    def equals(self, p):
+    def equals(self, p) -> bool:
         return (self.values == p.values) and (self.usable == p.usable) and (self.PointClass == p.PointClass)
-    def changeValues(self, values):
+    def changeValues(self, values: list):
         if len(self.values) != len(values):
             return -1
         self.values = values
 
 if __name__ == "__main__":
     #jc = jsonConverter()
-    f = open("text.txt", "r", encoding="utf8")
-    text3 = f.read()
-    f.close()
-    text3 = tm.replace_characters(text3,['(',')'],[''])
+    #f = open("text.txt", "r", encoding="utf8")
+    #text3 = f.read()
+    #f.close()
+    #text3 = tm.replace_characters(text3,['(',')'],[''])
     #print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
-    print(tm.get_number_of_short_words(text=text3))
+    #print(tm.get_number_of_short_words(text=text3))
     #print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
-
+    p = point([1,2,3],True,0)
+    a = p.dist(point([3,2.734,1],True,0))
+    print(type(a))

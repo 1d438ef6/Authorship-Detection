@@ -48,9 +48,7 @@ def get_diff(a1,a2,b=[]):                                                   #gib
     ret=[]
     for i in range(len(a1)):
         if len(b)>i:
-            if b[i]==1:
-                if a1[i]==a2[i]: ret.append(1)
-                else: ret.append(0)
+            if b[i]==1: ret.append(int(a1[i]==a2[i]))
             else: ret.append(abs(a1[i]-a2[i]))
         else: ret.append(abs(a1[i]-a2[i]))
     return ret
@@ -75,9 +73,12 @@ def train_new_model(path_to_feature_save=None, n_of_trees=50):                  
                                         test_size=0.1)
     rfc=RandomForestClassifier(n_estimators=n_of_trees)
     rfc.fit(X_train,y_train)
+    y_pred=clf.predict(X_test)
+    print(f"micro average f1: {metrics.f1_score(y_test,y_pred,average='micro')}")
+    print(f"macro average f1: {metrics.f1_score(y_test,y_pred,average='macro')}")
     return rfc
 
-def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None,diff=False,model=None,generate_feature=False):       #generiert ein dataframe mit features für jeden paragraphen
+def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None,diff=False,model=None,docNumber=False,generate_feature=False):       #generiert ein dataframe mit features für jeden paragraphen
     if path_to_dataset is None or not isdir(path_to_dataset): return -1
     if start is None or stop is None: return -1
     if fehlend is None: fehlend=[]
@@ -116,23 +117,26 @@ def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None
                         p2 = paragraphs[paragraphs.index(p)+1]
                         v=get_diff(get_features(text=p1,generate_feature=generate_feature,model=model),get_features(text=p2,generate_feature=generate_feature,model=model),[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
                         v.append(0 if h[paragraphs.index(p)]==h[paragraphs.index(p)+1] else 1)
-                
+                        if docNumber: v.append(e)
                         x.append(v)    
 
             else:
                 for p in range(len(paragraphs)):
-                    if len(tm.split_in_words(paragraphs[p]))>0:
+                    if len(tm.split_in_words(paragraphs[p]))>70:
                         v = get_features(text=paragraphs[p],generate_feature=generate_feature,model=model)
                         v.append(h[p])
-                        v.append(e)
+                        if docNumber: v.append(e)
                         x.append(v)
         except Exception:
             traceback.print_exc()
             if e==start:
                 return -1
             else: fehlend.append(e)
-    
-    return pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class']), fehlend
+    c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the']
+    if generate_feature: c.append('pred_class')
+    c.append('class')
+    if docNumber: c.append('doc')
+    return pd.DataFrame(x,columns=c), fehlend
 
 def is_equal(feature1=None,feature2=None,model=None):                                       #überprüft ob 2 listen mit features vom gleichen autor kommen
     #if (feature1 is None and feature2 is not None) or (feature1 is not None and feature2 is None): return False
@@ -372,12 +376,26 @@ for i in range(1,8138):
 #print(X_test)
 #print('---------------')
 #print(y_test)
-a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/train/train/dataset-wide",start=1,stop=7138,fehlend=None)
-a.to_csv('feature_save4_1.csv')
-#df1 = pd.read_csv('feature_save3.csv')
-#df1.append(df2)
-#print(df1)
-#df1.to_csv('feature_save5.csv')
+df = pd.read_csv('feature_save5_1.csv')
+
+x = []
+for i in range(103014):
+    print(i)
+    f1 = [df.iloc[i]['aNWP'],df.iloc[i]['aNSW'],df.iloc[i]['rSL'],df.iloc[i]['avWLiC'],df.iloc[i]['avWpS'],df.iloc[i]['aSN'],df.iloc[i]['SC'],df.iloc[i]['avNSyl'],
+          df.iloc[i]['WV2'],df.iloc[i]['FRE'],df.iloc[i]['aNShort'],df.iloc[i]['language'],df.iloc[i]['.'],df.iloc[i]['!'],df.iloc[i]['?'],df.iloc[i][','],
+          df.iloc[i]['-'],df.iloc[i]['of'],df.iloc[i]['is'],df.iloc[i]['the'],df.iloc[i]['pred_class']]
+    for j in range(i,103014):
+        #print(f"{i}-{j}")
+        f2 = [df.iloc[j]['aNWP'],df.iloc[j]['aNSW'],df.iloc[j]['rSL'],df.iloc[j]['avWLiC'],df.iloc[j]['avWpS'],df.iloc[j]['aSN'],df.iloc[j]['SC'],df.iloc[j]['avNSyl'],
+              df.iloc[j]['WV2'],df.iloc[j]['FRE'],df.iloc[j]['aNShort'],df.iloc[j]['language'],df.iloc[j]['.'],df.iloc[j]['!'],df.iloc[j]['?'],df.iloc[j][','],
+              df.iloc[j]['-'],df.iloc[j]['of'],df.iloc[j]['is'],df.iloc[j]['the'],df.iloc[j]['pred_class']]
+        v=get_diff(f1,f2,[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
+        v.append(0 if df.iloc[i]['class']==df.iloc[j]['class'] else 1)
+        v.append(f"{i}-{j}")
+        x.append(v)
+c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class','doc']
+pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
+
 #test=pd.read_csv('feature_save_val.csv')
 #del test['class']
 #del test['Unnamed: 0']

@@ -6,6 +6,7 @@ from tm import tm
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import metrics
+from sklearn.model_selection import cross_validate
 import joblib
 from os.path import exists, isdir
 
@@ -73,7 +74,7 @@ def train_new_model(path_to_feature_save=None, n_of_trees=50):                  
                                         test_size=0.1)
     rfc=RandomForestClassifier(n_estimators=n_of_trees)
     rfc.fit(X_train,y_train)
-    y_pred=clf.predict(X_test)
+    y_pred=rfc.predict(X_test)
     print(f"micro average f1: {metrics.f1_score(y_test,y_pred,average='micro')}")
     print(f"macro average f1: {metrics.f1_score(y_test,y_pred,average='macro')}")
     return rfc
@@ -376,35 +377,49 @@ for i in range(1,8138):
 #print(X_test)
 #print('---------------')
 #print(y_test)
-df = pd.read_csv('feature_save5_1.csv')
+#df = pd.read_csv('feature_save5_1.csv')
 
-x = []
-for i in range(103014):
-    print(i)
-    f1 = [df.iloc[i]['aNWP'],df.iloc[i]['aNSW'],df.iloc[i]['rSL'],df.iloc[i]['avWLiC'],df.iloc[i]['avWpS'],df.iloc[i]['aSN'],df.iloc[i]['SC'],df.iloc[i]['avNSyl'],
-          df.iloc[i]['WV2'],df.iloc[i]['FRE'],df.iloc[i]['aNShort'],df.iloc[i]['language'],df.iloc[i]['.'],df.iloc[i]['!'],df.iloc[i]['?'],df.iloc[i][','],
-          df.iloc[i]['-'],df.iloc[i]['of'],df.iloc[i]['is'],df.iloc[i]['the'],df.iloc[i]['pred_class']]
-    for j in range(i,103014):
+#x = []
+#for i in range(103014):
+#    continue
+#    print(i)
+#    f1 = [df.iloc[i]['aNWP'],df.iloc[i]['aNSW'],df.iloc[i]['rSL'],df.iloc[i]['avWLiC'],df.iloc[i]['avWpS'],df.iloc[i]['aSN'],df.iloc[i]['SC'],df.iloc[i]['avNSyl'],
+#          df.iloc[i]['WV2'],df.iloc[i]['FRE'],df.iloc[i]['aNShort'],df.iloc[i]['language'],df.iloc[i]['.'],df.iloc[i]['!'],df.iloc[i]['?'],df.iloc[i][','],
+#          df.iloc[i]['-'],df.iloc[i]['of'],df.iloc[i]['is'],df.iloc[i]['the'],df.iloc[i]['pred_class']]
+#    for j in range(i,103014):
         #print(f"{i}-{j}")
-        f2 = [df.iloc[j]['aNWP'],df.iloc[j]['aNSW'],df.iloc[j]['rSL'],df.iloc[j]['avWLiC'],df.iloc[j]['avWpS'],df.iloc[j]['aSN'],df.iloc[j]['SC'],df.iloc[j]['avNSyl'],
-              df.iloc[j]['WV2'],df.iloc[j]['FRE'],df.iloc[j]['aNShort'],df.iloc[j]['language'],df.iloc[j]['.'],df.iloc[j]['!'],df.iloc[j]['?'],df.iloc[j][','],
-              df.iloc[j]['-'],df.iloc[j]['of'],df.iloc[j]['is'],df.iloc[j]['the'],df.iloc[j]['pred_class']]
-        v=get_diff(f1,f2,[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
-        v.append(0 if df.iloc[i]['class']==df.iloc[j]['class'] else 1)
-        v.append(f"{i}-{j}")
-        x.append(v)
-c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class','doc']
-pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
+#        f2 = [df.iloc[j]['aNWP'],df.iloc[j]['aNSW'],df.iloc[j]['rSL'],df.iloc[j]['avWLiC'],df.iloc[j]['avWpS'],df.iloc[j]['aSN'],df.iloc[j]['SC'],df.iloc[j]['avNSyl'],
+#              df.iloc[j]['WV2'],df.iloc[j]['FRE'],df.iloc[j]['aNShort'],df.iloc[j]['language'],df.iloc[j]['.'],df.iloc[j]['!'],df.iloc[j]['?'],df.iloc[j][','],
+#              df.iloc[j]['-'],df.iloc[j]['of'],df.iloc[j]['is'],df.iloc[j]['the'],df.iloc[j]['pred_class']]
+#        v=get_diff(f1,f2,[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
+#        v.append(0 if df.iloc[i]['class']==df.iloc[j]['class'] else 1)
+#        v.append(f"{i}-{j}")
+#        x.append(v)
+#c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class','doc']
+#pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
+a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/validation/validation/dataset-wide",start=1,stop=4078,diff=True,model=None,docNumber=True,generate_feature=True)
+a.to_csv('feature_save_val.csv')
+with open('kNN_wide.txt') as f:
+    l = [float(i) for i in f.read().split('\n') if not i=='']
 
-#test=pd.read_csv('feature_save_val.csv')
-#del test['class']
-#del test['Unnamed: 0']
-#c = pd.read_csv('feature_save_val.csv')['class']
-#clf=joblib.load('rfc_model_final.pkl')
-#y_pred=clf.predict(test)
-#acc=metrics.accuracy_score(c, y_pred)
-#f1=metrics.f1_score(c,y_pred,average='macro')
-#print(acc,f1,sep=':')
+df=pd.read_csv('feature_save_val.csv')
+print(df)
+test=pd.DataFrame([df.iloc[i] for i in range(len(df)) if df.iloc[i]['doc'] in l])
+print(test)
+del test['class']
+del test['Unnamed: 0']
+del test['doc']
+c = [df.iloc[i]['class'] for i in range(len(df)) if df.iloc[i]['doc'] in l]
+clf=joblib.load('rfc_model_final.pkl')
+#clf=clf=RandomForestClassifier(n_estimators=500,n_jobs=5)
+#cv_results = cross_validate(clf, test, c, cv=10,n_jobs=5, scoring='f1_micro')#scoring=['accuracy','balanced_accuracy','top_k_accuracy','average_precision','f1','f1_micro','f1_macro','f1_weighted',
+                                                                     # 'f1_samples','precision','recall'])
+#print(cv_results)
+y_pred=clf.predict(test)
+acc=metrics.accuracy_score(c, y_pred)
+print(metrics.classification_report(c,y_pred))
+f1=metrics.f1_score(c,y_pred,average='micro')
+print(acc,f1,sep=':')
 #starttime2 = time.time()
 #clf=RandomForestClassifier(n_estimators=537)
 #test=pd.read_csv('feature_save3.csv')
@@ -412,6 +427,8 @@ pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
 #del test['Unnamed: 0']
 #c = pd.read_csv('feature_save3.csv')['class']
 #clf.fit(test,c)
+#print('train')
+#clf = train_new_model(path_to_feature_save='feature_save5.csv', n_of_trees=537)
 #joblib.dump(clf,'rfc_model_final.pkl')
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.7) (preloaded format=pdflatex 2021.7.20)  17 FEB 2022 11:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.7) (preloaded format=pdflatex 2021.7.20)  17 FEB 2022 11:48
 entering extended mode
 **./conference_101719.tex
 (conference_101719.tex
@@ -460,12 +460,12 @@ Underfull \hbox (badness 1931) in paragraph at lines 57--58
 
 
 ]
-<../../Unbenannt.jpg, id=9, 399.894pt x 288.47775pt>
-File: ../../Unbenannt.jpg Graphic file (type jpg)
-<use ../../Unbenannt.jpg>
-Package pdftex.def Info: ../../Unbenannt.jpg  used on input line 107.
+<Unbenannt.jpg, id=9, 399.894pt x 288.47775pt>
+File: Unbenannt.jpg Graphic file (type jpg)
+<use Unbenannt.jpg>
+Package pdftex.def Info: Unbenannt.jpg  used on input line 107.
 (pdftex.def)             Requested size: 176.39923pt x 127.25192pt.
- [2 <../../Unbenannt.jpg>]
+ [2 <./Unbenannt.jpg>]
 Underfull \hbox (badness 10000) in paragraph at lines 183--184
 []\OT1/ptm/m/n/8 A. Iyer and S. Vo-soug-hi. Sty-le Change De-tec-ti-on Using
  []
@@ -503,9 +503,9 @@ Before submitting the final camera ready copy, remember to:
 
 ] (conference_101719.aux) ) 
 Here is how much of TeX's memory you used:
- 7412 strings out of 478870
- 106366 string characters out of 2860602
- 472318 words of memory out of 3000000
+ 7410 strings out of 478870
+ 106364 string characters out of 2860602
+ 472312 words of memory out of 3000000
  25197 multiletter control sequences out of 15000+600000
  443598 words of font info for 106 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191

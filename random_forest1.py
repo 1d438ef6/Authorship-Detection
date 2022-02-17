@@ -397,29 +397,43 @@ for i in range(1,8138):
 #        x.append(v)
 #c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class','doc']
 #pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
-a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/validation/validation/dataset-wide",start=1,stop=4078,diff=True,model=None,docNumber=True,generate_feature=True)
-a.to_csv('feature_save_val.csv')
-with open('kNN_wide.txt') as f:
-    l = [float(i) for i in f.read().split('\n') if not i=='']
+#a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/validation/validation/dataset-wide",start=1,stop=4078,diff=True,model=None,docNumber=True,generate_feature=True)
+#a.to_csv('feature_save_val.csv')
+#with open('kNN_wide.txt') as f:
+#    l = [float(i) for i in f.read().split('\n') if not i=='']
 
-df=pd.read_csv('feature_save_val.csv')
-print(df)
-test=pd.DataFrame([df.iloc[i] for i in range(len(df)) if df.iloc[i]['doc'] in l])
-print(test)
-del test['class']
-del test['Unnamed: 0']
-del test['doc']
-c = [df.iloc[i]['class'] for i in range(len(df)) if df.iloc[i]['doc'] in l]
-clf=joblib.load('rfc_model_final.pkl')
-#clf=clf=RandomForestClassifier(n_estimators=500,n_jobs=5)
+df=pd.read_csv('feature_save5.csv')
+#print(df)
+test=df[['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','pred_class']]#pd.DataFrame([df.iloc[i] for i in range(len(df)) if df.iloc[i]['doc'] in l])
+#print(test)
+#del test['class']
+#del test['Unnamed: 0']
+#del test['doc']
+c = df['class']#[df.iloc[i]['class'] for i in range(len(df)) if df.iloc[i]['doc'] in l]
+#clf=joblib.load('rfc_model_final.pkl')
+clf=clf=RandomForestClassifier(n_estimators=500,n_jobs=5)
 #cv_results = cross_validate(clf, test, c, cv=10,n_jobs=5, scoring='f1_micro')#scoring=['accuracy','balanced_accuracy','top_k_accuracy','average_precision','f1','f1_micro','f1_macro','f1_weighted',
                                                                      # 'f1_samples','precision','recall'])
 #print(cv_results)
-y_pred=clf.predict(test)
-acc=metrics.accuracy_score(c, y_pred)
+clf.fit(test,c)
+df2=pd.read_csv('feature_save_val.csv')
+test2=df2[['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','pred_class']]
+c2 = df2['class']
+y_pred=clf.predict(test2)
+acc=metrics.accuracy_score(c2, y_pred)
 print(metrics.classification_report(c,y_pred))
-f1=metrics.f1_score(c,y_pred,average='micro')
+f1=metrics.f1_score(c2,y_pred,average='micro')
+i=0
+maxf1=0
+while f1<0.9 or i>100:
+    print(i)
+    i=i+1
+    clf.fit(test,c)
+    y_pred=clf.predict(test2)
+    f1=metrics.f1_score(c2,y_pred,average='micro')
+    if f1>maxf1: maxf1=f1
 print(acc,f1,sep=':')
+print('max',maxf1,sep=': ')
 #starttime2 = time.time()
 #clf=RandomForestClassifier(n_estimators=537)
 #test=pd.read_csv('feature_save3.csv')

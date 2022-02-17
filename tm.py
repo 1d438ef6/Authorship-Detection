@@ -151,21 +151,17 @@ class tm:
         return [z for z in text if z in symbols]
     def get_symbol_frequency(text = None, symbols = [".","!","?",",","-"]): #gibt die Häufigkeit der Sonderzeichen zurück
         if text == None: return -1
-        symbol_marker = tm.get_symbols(text, symbols)     
-        frequency = [symbol_marker.count(i) for i in symbols]
-        return frequency
+        symbol_marker = tm.get_symbols(text, symbols)
+        return [symbol_marker.count(i) for i in symbols]
     def get_relative_symbol_frequency(text = None, symbols = [".","!","?",",","-"]):#gibt die relative Häufigkeit der Sonderzeichen zurück
         if text == None: return -1
         frequency = tm.get_symbol_frequency(text, symbols);
         nos1 = len(frequency)                       #number of symbols that are counted in frequency
-        nos2 = len(tm.get_symbols(text, symbols))   #number of all symbols in the text
-        rel_frequency = [0 for i in range(nos1)]
-        for i in range(nos1):
-            try:
-                rel_frequency[i] = frequency[i] / nos2
-            except:
-                rel_frequency[i] = 0
-        return rel_frequency
+        if nos1>0:
+            nos2 = sum(frequency)                       #number of all symbols in the text
+            return [f/nos2 for f in frequency]
+        else:
+            return [0 for i in frequency]
     def get_number_of_symbol_in_row(text = None, symbol = ",", symbols = [".","!","?",",","-"]):   #gibt eine Liste mit Häufigkeiten wieder in denen ein bestimmtes Zeichen in Reihe auftritt
         if text == None: return -1
         if not symbol in symbols:       #das gesuchte symbol kann nicht gefunden werden
@@ -253,78 +249,27 @@ class tm:
                      'hi', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko', 'lt', 'lv', 'mk', 'ml', 'mr', 'ne', 'nl', 'no', 'pa', 'pl',
                      'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']
         return languages.index(detect(text))
+    def get_language2(text=None,lang=10):                                           #gibt wahrscheinlichkeit wieder dass wort bestimmter sprache angehörig ist
+        t = tm.split_in_sentences(text=text,replace=True)
+        l = [[tm.get_language(w) for w in t].count(i) for i in range(55)]
+        return l[lang]/len(t)
     def get_topic(text = None):                                                     #gibt das topic eines textes zurück (zukünftig)
         if text == None: return -1
         #robjects.r('''
         #library(topicmodels)
         #ap_lda = 
         #''')
+    def lemmatize(text = None):
+        pass
         
 
 
-class jsonConverter:                            #to use that damn jsons file
-    import json
-    def __init__(self, jsonFile=None):          #Constructor, muss Pfad zur JSON Datei gegeben bekommen
-        try:
-            with open(jsonFile) as jsonFile:
-                self.data = json.load(jsonFile)
-        except:
-            print("Error")
-    def __del__(self):                          #Destructor
-        self.data.clear()
-        print("jsonConverter destroyed")
-    def get_number_of_authors(self):            #gibt Daten aus der json zurück
-        return self.data["authors"]
-    def get_structure(self):
-        return self.data["structure"]  
-    def get_multi_author(self):
-        return self.data["multi-author"]
-    def get_changes(self):
-        return self.data["changes"]
-    def get_author_paragraph(self):             #gibt für jeden paragraphen den entsprechenden Autor zurück
-        authors = self.data["authors"]
-        changes = self.data["changes"]
-        pos = 0
-        h = []
-        for i in changes:
-            if i == 1:
-                pos+=1
-                h.append(authors[pos])
-            else:
-                h.append(authors[pos])
-        return h
-
-class point:
-    def __init__(self, values:list=None, usable:bool=True, PointClass:int=0):
-        self.values = values
-        self.usable = usable
-        self.PointClass = PointClass
-    def __dict__(self):
-        mydict = {
-            "values": self.values,
-            "Klasse": self.PointClass
-        }
-        return mydict
-    def __str__(self):
-        return("Values: ", self.values, "usable: ", self.usable, "PointClass: ", self.PointClass)
-    def dist(self, p) -> float:
-        #if self.usable and p.usable:
-        return sum([(pow(abs(self.values[i]-p.values[i]),2)) for i in range(len(self.values))])
-        #else:
-        #    print("not usable")
-        #    return -1
-    def equals(self, p) -> bool:
-        return (self.values == p.values) and (self.usable == p.usable) and (self.PointClass == p.PointClass)
-    def changeValues(self, values: list):
-        if len(self.values) != len(values):
-            return -1
-        self.values = values
-
 if __name__ == "__main__":
     #jc = jsonConverter()
-    #f = open("text.txt", "r", encoding="utf8")
-    #text3 = f.read()
-    #f.close()
+    f = open("text.txt", "r", encoding="utf8")
+    text3 = f.read()
+    f.close()
+    print(tm.get_language2(text=text3))
     #text3 = tm.replace_characters(text3,['(',')'],[''])
     #print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
     #print(tm.get_number_of_short_words(text=text3))

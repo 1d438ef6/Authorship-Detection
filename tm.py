@@ -265,15 +265,4 @@ class tm:
 
 
 if __name__ == "__main__":
-    #jc = jsonConverter()
-    f = open("text.txt", "r", encoding="utf8")
-    text3 = f.read()
-    f.close()
-    print(tm.get_language2(text=text3))
-    #text3 = tm.replace_characters(text3,['(',')'],[''])
-    #print(tm.get_average_number_of_syllables_per_word("supercalifragilisticexpialidocious"))
-    #print(tm.get_number_of_short_words(text=text3))
-    #print(tm.combine_dictionary_with_frequencies(dictionary=tm.generate_dictionary(text3),frequencies=tm.get_relative_word_frequency(text=text3)))
-    p = point([1,2,3],True,0)
-    a = p.dist(point([3,2.734,1],True,0))
-    print(type(a))
+    pass

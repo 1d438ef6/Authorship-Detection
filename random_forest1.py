@@ -10,6 +10,9 @@ from sklearn.model_selection import cross_validate
 import joblib
 from os.path import exists, isdir
 
+#anpassen vor dem ausführen
+pfad = f"D:/Studium/Softwareprojekt/"
+
 fehlend = [48, 6083, 6088, 2090, 2132, 6379, 6424, 6471, 6620, 6678, 4781, 6764, 4849, 6784, 4867, 6831, 6834, 4939, 6897, 6901, 5011, 6946, 6949, 5052, 6984, 5067, 5074, 7006, 5088, 7022, 5135, 5137, 7101, 5196, 7165, 1369, 1418, 5402, 5403, 7388, 7432, 7443, 1559, 1563, 7475, 5533, 7482, 7499, 1618, 3196, 3197, 3204, 7527, 3238, 7581, 3246, 3248, 5639, 7588, 7616, 7619, 3285, 7633, 3306, 7670, 7678, 3331, 5741, 7689, 5748, 3338, 7737, 3392, 7758, 7761, 7775, 7787, 5854, 7794, 7806, 5876, 5880, 7827, 7838, 1951, 7884, 7887, 5948, 7897, 7899, 7904, 7905, 7915, 7917, 7963, 7981, 7985, 7998, 8019, 8021, 8031, 8047, 8060, 8063, 8064, 8074, 8077, 8116]
 
 def get_features(text=None,generate_feature=False,model=None):                                             #gibt die features für einen text zurück
@@ -158,10 +161,10 @@ def generate_solution(text=None,model=None):                                    
 
     for p in paragraphs:
         if paragraphs[0] == p:
-            authors.append(get_features(text=p))
+            authors.append(get_features(text=p,generate_feature=True))
             structure.append('A1')
         else:
-            feature1=get_features(p)
+            feature1=get_features(p,generate_feature=True)
             h = []
             for a in authors:
                 if is_equal(feature1,a,rfc):
@@ -190,145 +193,47 @@ def generate_solution(text=None,model=None):                                    
     return myDict
 
 
-from dataclasses import dataclass
-
-@dataclass
-class Model:
-    models = list()
-
-    author_id: int
-    changes: bool = False
-
-    def __post_init__(self):
-        self.models.append(self)
-
-    def get_all_changes(self):
-        return [model.changes for model in self.models]
-
-    @property
-    def structure(self):
-        _structure = list()
-
-        for model in self.models:
-            if len(_structure) != 0:
-                _structure.append(model.author_id)
-                continue
-            if _structure[-1] != model.author_id:
-                _structure.append(model.author_id)
-
-        return [f"A{_s}" for _s in _structure]
-
-
-@dataclass
-class Author:
-    author_counter = 0
-
-    features: list
-    author_id: int = 1
-
-    def average_features(self, feature1):
-        for num_feature in range(len(self.features)):
-            self.features[num_feature] = self.features[num_feature] + feature1[num_feature] / 2
-
-    def __post_init__(self):
-        self.author_id = Author.author_counter
-        Author.author_counter += 1
-
-    def __str__(self):
-        return f"A{self.author_id}"
-
-
-def generate_solution2(text: str = "", model=None):                         #macht das gleiche wie die funktion vorher aber nicht so gut
-    if not text:
-        return -1
-
-    rfc = model if model is not None else joblib.load('rfc_model_final.pkl')
-
-
-
-    authors = []
-    changes = []
-    structure = []
-
-    ##############
-    _authors = []
-    # _models = []
-
-    paragraphs = tm.split_in_paragraphes(text)
-
-    for p in paragraphs:
-        if paragraphs[0] == p:
-
-            ###################
-            _author = Author(features=get_features(text=p))
-            _authors.append(_author)
-
-            Model(author_id=_author.author_id)
-
-
-        else:
-            feature1: list = get_features(text=p)
-
-            #############
-            # if len(_h) > 1 then dont add author features PS: MysticBanana
-            _h = [author for author in _authors if is_equal(feature1, author.features, rfc)]
-            #_h = _h[0]
-            if len(_h) == 0:
-                _author = Author(features=feature1)
-                _authors.append(_author)
-                Model(author_id=_author.author_id, changes=True)
-            else:
-                _author = _authors[-1]
-                # if _author.author_id == _h.author_id:
-                #     Model(author_id=_h.author_id)
-                # else:
-                #     Model(author_id=_h.author_id, changes=True)
-
-                Model(author_id=_h[0].author_id, changes=(not _author.author_id == _h[0].author_id))
-                _h[0].average_features(feature1=feature1)
-    mystics_dict = {
-        "authors": len(_authors),
-        "structure": Model.structure,
-        "site": "not implemented yet",
-        "multi-author": int(not len(authors) == 1),
-        "changes": Model.models[0].get_all_changes()
-    }
-
-    return mystics_dict # too
-
 
 print('start')
 
-#val_fehlend = []
-for i in range(598,4078):
-    continue
+#zum erzeugen der Lösungsdateien
+for i in range(1,8138): #train/dataset-wide
+#for i in range(1,4078): #validation/dataset-wide
+#for i in range(1,3442): #train/dataset-narrow
+#for i in range(1,1772): #validation/dataset-narrow
+    #auskommentieren zum ausführen
+    #continue
     print(i)
     try:
-        p2 = f"D:/Studium/Softwareprojekt/validation/validation/dataset-wide/problem-{i}.txt"
+        p2 = pfad + f"validation/validation/dataset-wide/problem-{i}.txt"
         with open(p2,'r',encoding="utf8") as f:
             text = f.read()
         d = generate_solution(text=text)
-        with open(f"D:/Studium/Softwareprojekt/validation/validation/dataset-wide/truth-problem-{i}.json") as jsonFile:
+        with open(pfad + f"validation/validation/dataset-wide/truth-problem-{i}.json") as jsonFile:
             data = json.load(jsonFile)
         print('AAAAAA=',data)
         print("My Solution=",d)
-        
-        with open(f"D:/Studium/Softwareprojekt/validation/validation/solution-wide/solution-{i}.json",'w',encoding="utf8") as f:
+        with open(pfad + f"validation/validation/solution-wide/solution-{i}.json",'w',encoding="utf8") as f:
             json.dump(d,f)
     except:
         #val_fehlend.append(i)
         print("error")
+        traceback.print_exc()
 
+#zum Überprüfen der Lösungsdateien
 #authors, structure, multi-author, changes
 richtig = [0,0,0,0]
 docs = 0
-for i in range(1,4078):
-    #print(i)
+for i in range(1,8138): #train/dataset-wide
+#for i in range(1,4078): #validation/dataset-wide
+#for i in range(1,3442): #train/dataset-narrow
+#for i in range(1,1772): #validation/dataset-narrow
+    #auskommentieren zum ausführen
     continue
     try:
-        with open(f"D:/Studium/Softwareprojekt/validation/validation/dataset-wide/truth-problem-{i}.json") as jsonFile:
+        with open(pfad + f"validation/validation/dataset-wide/truth-problem-{i}.json") as jsonFile:
             data1 = json.load(jsonFile)
-        with open(f"D:/Studium/Softwareprojekt/validation/validation/solution-wide/solution-{i}.json") as f:
+        with open(pfad + f"validation/validation/solution-wide/solution-{i}.json") as f:
             data2 = json.load(f)
         richtig[0] += 1 if data1['authors']==data2['authors'] else 0
         richtig[1] += 1 if data1['structure']==data2['structure'] else 0
@@ -340,126 +245,4 @@ for i in range(1,4078):
 print(richtig)
 print(docs)
 
-x=[]
-for i in range(1,8138):
-    #print(i)
-    continue
-    if i in fehlend: continue
-    try:
-        p1 = f"D:/Studium/Softwareprojekt/train/train/dataset-wide/truth-problem-{i}.json"
-        p2 = f"D:/Studium/Softwareprojekt/train/train/dataset-wide/problem-{i}.txt"
-        with open(p1) as jsonFile:
-            n = json.load(jsonFile)['authors']
-        with open(p2,'r',encoding="utf8") as f:
-            text = f.read()
-        text = text.replace('\n\n',' ')
-        v = get_features(text)
-        v.append(n)
-        x.append(v)
-    except:
-        print("ERROR")
-#a=pd.DataFrame(x,columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','class','doc'])
-#print(a)
-#a.to_csv('feature_save4.csv')
-#with open("val_fehlend.txt",'w',encoding="utf8") as f:
-#    f.write(str(val_fehlend))
-#best_acc=0
-#n_acc = 0
-#best_f1 =0
-#n_f1 = 0
-#data = pd.read_csv('feature_save3.csv')
-#for i in range(50,1500,50):
-#print('AAAAAAAAAA')
-#X_train, X_test, y_train, y_test = train_test_split(
-#                                        data[['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class']],
-#                                        data['class'],
-#                                        test_size=0.3)
-#print(X_test)
-#print('---------------')
-#print(y_test)
-#df = pd.read_csv('feature_save5_1.csv')
 
-#x = []
-#for i in range(103014):
-#    continue
-#    print(i)
-#    f1 = [df.iloc[i]['aNWP'],df.iloc[i]['aNSW'],df.iloc[i]['rSL'],df.iloc[i]['avWLiC'],df.iloc[i]['avWpS'],df.iloc[i]['aSN'],df.iloc[i]['SC'],df.iloc[i]['avNSyl'],
-#          df.iloc[i]['WV2'],df.iloc[i]['FRE'],df.iloc[i]['aNShort'],df.iloc[i]['language'],df.iloc[i]['.'],df.iloc[i]['!'],df.iloc[i]['?'],df.iloc[i][','],
-#          df.iloc[i]['-'],df.iloc[i]['of'],df.iloc[i]['is'],df.iloc[i]['the'],df.iloc[i]['pred_class']]
-#    for j in range(i,103014):
-        #print(f"{i}-{j}")
-#        f2 = [df.iloc[j]['aNWP'],df.iloc[j]['aNSW'],df.iloc[j]['rSL'],df.iloc[j]['avWLiC'],df.iloc[j]['avWpS'],df.iloc[j]['aSN'],df.iloc[j]['SC'],df.iloc[j]['avNSyl'],
-#              df.iloc[j]['WV2'],df.iloc[j]['FRE'],df.iloc[j]['aNShort'],df.iloc[j]['language'],df.iloc[j]['.'],df.iloc[j]['!'],df.iloc[j]['?'],df.iloc[j][','],
-#              df.iloc[j]['-'],df.iloc[j]['of'],df.iloc[j]['is'],df.iloc[j]['the'],df.iloc[j]['pred_class']]
-#        v=get_diff(f1,f2,[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])
-#        v.append(0 if df.iloc[i]['class']==df.iloc[j]['class'] else 1)
-#        v.append(f"{i}-{j}")
-#        x.append(v)
-#c = ['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class','class','doc']
-#pd.DataFrame(x,columns=c).to_csv('feature_save5_2.csv')
-#a,b = generate_feature_save(path_to_dataset="D:/Studium/Softwareprojekt/validation/validation/dataset-wide",start=1,stop=4078,diff=True,model=None,docNumber=True,generate_feature=True)
-#a.to_csv('feature_save_val.csv')
-#with open('kNN_wide.txt') as f:
-#    l = [float(i) for i in f.read().split('\n') if not i=='']
-
-df=pd.read_csv('feature_save5.csv')
-#print(df)
-test=df[['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','pred_class']]#pd.DataFrame([df.iloc[i] for i in range(len(df)) if df.iloc[i]['doc'] in l])
-#print(test)
-#del test['class']
-#del test['Unnamed: 0']
-#del test['doc']
-c = df['class']#[df.iloc[i]['class'] for i in range(len(df)) if df.iloc[i]['doc'] in l]
-#clf=joblib.load('rfc_model_final.pkl')
-clf=clf=RandomForestClassifier(n_estimators=500,n_jobs=5)
-#cv_results = cross_validate(clf, test, c, cv=10,n_jobs=5, scoring='f1_micro')#scoring=['accuracy','balanced_accuracy','top_k_accuracy','average_precision','f1','f1_micro','f1_macro','f1_weighted',
-                                                                     # 'f1_samples','precision','recall'])
-#print(cv_results)
-clf.fit(test,c)
-df2=pd.read_csv('feature_save_val.csv')
-test2=df2[['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','pred_class']]
-c2 = df2['class']
-y_pred=clf.predict(test2)
-acc=metrics.accuracy_score(c2, y_pred)
-print(metrics.classification_report(c,y_pred))
-f1=metrics.f1_score(c2,y_pred,average='micro')
-i=0
-maxf1=0
-while f1<0.9 or i>100:
-    print(i)
-    i=i+1
-    clf.fit(test,c)
-    y_pred=clf.predict(test2)
-    f1=metrics.f1_score(c2,y_pred,average='micro')
-    if f1>maxf1: maxf1=f1
-print(acc,f1,sep=':')
-print('max',maxf1,sep=': ')
-#starttime2 = time.time()
-#clf=RandomForestClassifier(n_estimators=537)
-#test=pd.read_csv('feature_save3.csv')
-#del test['class']
-#del test['Unnamed: 0']
-#c = pd.read_csv('feature_save3.csv')['class']
-#clf.fit(test,c)
-#print('train')
-#clf = train_new_model(path_to_feature_save='feature_save5.csv', n_of_trees=537)
-#joblib.dump(clf,'rfc_model_final.pkl')
-
-
-    #y_pred=clf.predict(X_test)
-    #acc=metrics.accuracy_score(y_test, y_pred)
-    #f1=metrics.f1_score(y_test,y_pred,average='macro')
-    #print(f1)
-    #if acc>best_acc:
-    #    best_acc=acc
-    #    n_acc = i
-    #if f1>best_f1:
-    #    best_f1=f1
-    #    n_f1=i
-    #print("Accuracy:",acc)
-    #print("f1:",f1)
-    #endtime = time.time()
-#print('total time: ',endtime-starttime1)
-#print('classifier time: ', endtime-starttime2)
-#print('best acc result:',best_acc,'n of trees:',n_acc,sep=' ')
-#print('best f1 result:',best_f1,'n of trees:',n_f1,sep=' ')

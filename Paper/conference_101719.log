@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.21)  22 FEB 2022 23:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.21)  23 FEB 2022 11:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -469,27 +469,32 @@ Underfull \hbox (badness 1931) in paragraph at lines 57--58
 <Unbenannt.jpg, id=9, 399.894pt x 288.47775pt>
 File: Unbenannt.jpg Graphic file (type jpg)
 <use Unbenannt.jpg>
-Package pdftex.def Info: Unbenannt.jpg  used on input line 107.
+Package pdftex.def Info: Unbenannt.jpg  used on input line 110.
 (pdftex.def)             Requested size: 176.39923pt x 127.25192pt.
 
-[2 <./Unbenannt.jpg>] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 224--225
+[2 <./Unbenannt.jpg>]
+Overfull \hbox (0.52605pt too wide) in paragraph at lines 140--174
+ [] 
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 232--233
 []\OT1/ptm/m/n/8 A. Iyer and S. Vo-soug-hi. Sty-le Change De-tec-ti-on Using
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 224--225
+Underfull \hbox (badness 3029) in paragraph at lines 232--233
 \OT1/ptm/m/n/8 2020 Labs and Work-shops, No-te-book Pa-pers, Sep-tem-ber 2020.
  []
 
-
-Underfull \hbox (badness 4927) in paragraph at lines 236--237
+[4]
+Underfull \hbox (badness 4927) in paragraph at lines 244--245
 []\OT1/ptm/m/n/8 B. Stein and N. Lip-ka and P. Pret-ten-ho-fer. In-t-rin-sic pl
 a-gia-
  []
 
 
-Underfull \hbox (badness 1546) in paragraph at lines 236--237
+Underfull \hbox (badness 1546) in paragraph at lines 244--245
 \OT1/ptm/m/n/8 rism ana-ly-sis. Lang Re-sources and Eva-lua-ti-on 45, 63{82, 20
 11.
  []
@@ -505,25 +510,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[4] (conference_101719.aux) ) 
+[5
+
+] (conference_101719.aux) ) 
 Here is how much of TeX's memory you used:
  7958 strings out of 478584
  124349 string characters out of 2856117
- 465418 words of memory out of 3000000
+ 467666 words of memory out of 3000000
  26013 multiletter control sequences out of 15000+600000
  509427 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,67p,1243b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
-{D:/Programme/MikTeX/fonts/enc/dvips/base/8r.enc}<
-D:/Programme/MikTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Programme/Mik
-TeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Programme/MikTeX/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmb8a.
-pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmbi8a.pfb><D:/Programme/MikTeX
-/fonts/type1/urw/times/utmr8a.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/ut
-mri8a.pfb>
-Output written on conference_101719.pdf (4 pages, 144050 bytes).
+ 60i,10n,67p,1245b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
+{D:/Programme/MikTeX/fonts/enc/dvips/base/8r.enc}<D:
+/Programme/MikTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Programme/MikTe
+X/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Programme/MikTeX/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmb8a.pf
+b><D:/Programme/MikTeX/fonts/type1/urw/times/utmbi8a.pfb><D:/Programme/MikTeX/f
+onts/type1/urw/times/utmr8a.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmr
+i8a.pfb>
+Output written on conference_101719.pdf (5 pages, 147515 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
+ 55 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

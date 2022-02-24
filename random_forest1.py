@@ -17,7 +17,7 @@ fehlend = [48, 6083, 6088, 2090, 2132, 6379, 6424, 6471, 6620, 6678, 4781, 6764,
 
 def get_features(text=None,generate_feature=False,model=None):                                             #gibt die features für einen text zurück
     if text is None: return -1
-    if model is None and generate_feature: rfc=joblib.load('rfc_model_test.pkl')
+    if model is None and generate_feature: rfc=joblib.load('Models/rfc_model_test.pkl')
     else: rfc=model
     v = [
         #Lexical
@@ -145,14 +145,14 @@ def generate_feature_save(path_to_dataset=None,start=None,stop=None,fehlend=None
 def is_equal(feature1=None,feature2=None,model=None):                                       #überprüft ob 2 listen mit features vom gleichen autor kommen
     #if (feature1 is None and feature2 is not None) or (feature1 is not None and feature2 is None): return False
     #elif feature1 is None and feature2 is None: return True
-    rfc = model if model is not None else joblib.load('rfc_model_final.pkl')
+    rfc = model if model is not None else joblib.load('Models/rfc_model_final.pkl')
     temp_h=rfc.predict(pd.DataFrame([get_diff(feature1,feature2,[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1])],columns=['aNWP','aNSW','rSL','avWLiC','avWpS','aSN','SC','avNSyl','WV2','FRE','aNShort','language','.','!','?',',','-','of','is','the','pred_class']))
     return temp_h==0
     
 
 def generate_solution(text=None,model=None):                                                #generiert die lösung für eine textdatei
     if text is None: return -1
-    rfc = model if model is not None else joblib.load('rfc_model_final.pkl')
+    rfc = model if model is not None else joblib.load('Models/rfc_model_final.pkl')
     authors=[]
     changes=[]
     structure=[]

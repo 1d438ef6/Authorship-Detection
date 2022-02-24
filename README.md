@@ -5,7 +5,8 @@ Softwarprojekt an der HS Mittweida, Studiengang Allgemeine und Digitale Forensik
 
 ## Task
 
-Erkennen welche Absätze in einem Dokument vom gleichen und welche von unterschiedlichen Autoren geschrieben wurden. <br />
+1. Erkennen ob ein Dokument von mehreren Autoren geschrieben wurde.
+2. Erkennen welche Absätze in einem Dokument vom gleichen und welche von unterschiedlichen Autoren geschrieben wurden. <br />
 
 ## Usage
 

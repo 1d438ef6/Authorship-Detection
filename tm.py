@@ -206,7 +206,7 @@ class tm:
         if text == None: return -1
         h = tm.get_symbol_frequency(text = text, symbols = symbol)[0]
         return h/tm.get_number_of_sentences(text)
-    def get_sentence_complexity2(text = None, symbol = ",", replace = False):            #gibt die Satzkomplexität zurück
+    def get_sentence_complexity2(text = None, symbol = ",", replace = False):            #gibt die gewichtete Satzkomplexität zurück
         if text == None: return -1
         return tm.get_sentence_complexity(text=text,symbol=symbol,replace=replace) * (sum(tm.get_symbol_frequency(text=text))/tm.get_number_of_sentences(text=text,replace=replace))
     def get_number_of_filler_words(text = None, filler_words = ["von","der","die","das","aber"]):     #gibt die Anzahl der gegebenen Füllwörter zurück 

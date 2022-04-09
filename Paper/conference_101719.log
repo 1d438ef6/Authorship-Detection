@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.21)  23 FEB 2022 11:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.21)  27 FEB 2022 19:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -353,6 +353,10 @@ File: csquotes.cfg
 )
 Package csquotes Info: Redefining alias 'german' -> 'german/quotes'.
 )
+(D:\Programme\MikTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -366,20 +370,20 @@ File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 (conference_101719.aux)
 \openout1 = `conference_101719.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
 
 -- Lines per column: 56 (exact).
 (D:\Programme\MikTeX\tex/context/base/mkii\supp-pdf.mkii
@@ -397,42 +401,8 @@ LaTeX Font Info:    ... okay on input line 17.
 \everyMPtoPDFconversion=\toks33
 ) (D:\Programme\MikTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-
-(D:\Programme\MikTeX\tex/generic/infwarerr\infwarerr.sty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)
-(D:\Programme\MikTeX\tex/latex/grfext\grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-
-(D:\Programme\MikTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
-Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-))
-(D:\Programme\MikTeX\tex/latex/kvoptions\kvoptions.sty
-Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
-
-(D:\Programme\MikTeX\tex/generic/ltxcmds\ltxcmds.sty
-Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(D:\Programme\MikTeX\tex/generic/kvsetkeys\kvsetkeys.sty
-Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-))
-(D:\Programme\MikTeX\tex/generic/pdftexcmds\pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(D:\Programme\MikTeX\tex/generic/iftex\iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
-)
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
 
 (D:\Programme\MikTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
@@ -443,60 +413,155 @@ File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 (D:\Programme\MikTeX\tex/latex/ucs\uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 32.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
 
 
 (D:\Programme\MikTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 32.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 33.
 
 
 (D:\Programme\MikTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-(D:\Programme\MikTeX\tex/latex/ucs\uni-32.def
-File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
-)
-Underfull \hbox (badness 1931) in paragraph at lines 57--58
-[]\OT1/ptm/m/n/10 Deibel und L[]offlad [7] kom-bi-nie-ren Wor-tein-bet-tun-gen
+<Aufgabenbeschreibung.png, id=1, 455.45157pt x 207.77625pt>
+File: Aufgabenbeschreibung.png Graphic file (type png)
+<use Aufgabenbeschreibung.png>
+Package pdftex.def Info: Aufgabenbeschreibung.png  used on input line 49.
+(pdftex.def)             Requested size: 226.79846pt x 103.46619pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+[]\OT1/ptm/m/n/10 Zur Auf-ga-benl[]osung wird der Vor-gang der
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\OT1/ptm/m/n/10 Stil[]anderungsdetektion in zwei Tei-lauf-ga-ben auf-ge-teilt.
+ []
+
+
+Underfull \hbox (badness 2042) in paragraph at lines 54--55
+\OT1/ptm/m/n/10 Die er-ste Auf-ga-be soll die Fra-ge be-ant-wor-ten, ob ein
+ []
+
+
+Underfull \hbox (badness 2285) in paragraph at lines 54--55
+\OT1/ptm/m/n/10 wur-de. In der zwei-ten Auf-ga-be soll be-stimmt wer-den,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\OT1/ptm/m/n/10 zwi-schen wel-chen auf-ein-an-der-fol-gen-den Abs[]atzen ei-ne
+ []
+
+
+Underfull \hbox (badness 2253) in paragraph at lines 54--55
+\OT1/ptm/m/n/10 Schreib-stil[]anderung und so-mit auch ein Au-to-ren-wech-sel
  []
 
 [1{C:/Users/Leon/AppData/Local/MiKTeX/2.9/fonts/map/pdftex/pdftex.map}
 
 
-]
-<Unbenannt.jpg, id=9, 399.894pt x 288.47775pt>
-File: Unbenannt.jpg Graphic file (type jpg)
-<use Unbenannt.jpg>
-Package pdftex.def Info: Unbenannt.jpg  used on input line 110.
-(pdftex.def)             Requested size: 176.39923pt x 127.25192pt.
-
-[2 <./Unbenannt.jpg>]
-Overfull \hbox (0.52605pt too wide) in paragraph at lines 140--174
- [] 
+ <./Aufgabenbeschreibung.png>]
+Underfull \hbox (badness 1931) in paragraph at lines 68--69
+[]\OT1/ptm/m/n/10 Deibel und L[]offlad [8] kom-bi-nie-ren Wor-tein-bet-tun-gen
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 232--233
+<alg.jpg, id=12, 980.66376pt x 382.42876pt>
+File: alg.jpg Graphic file (type jpg)
+<use alg.jpg>
+Package pdftex.def Info: alg.jpg  used on input line 116.
+(pdftex.def)             Requested size: 201.60077pt x 78.6143pt.
+[2 <./alg.jpg>] (D:\Programme\MikTeX\tex/latex/ucs\uni-32.def
+File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
+)
+<Unbenannt.jpg, id=17, 399.894pt x 288.47775pt>
+File: Unbenannt.jpg Graphic file (type jpg)
+<use Unbenannt.jpg>
+Package pdftex.def Info: Unbenannt.jpg  used on input line 136.
+(pdftex.def)             Requested size: 176.39923pt x 127.25192pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3 <./Unbenannt.jpg>]
+Underfull \hbox (badness 4328) in paragraph at lines 190--190
+\OT1/ptm/m/n/8 mit Son-der-zei-chen ` (zur Ab-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
+[]|\OT1/ptm/m/n/8 Beispiel: I'm, you're,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
+[]|\OT1/ptm/m/n/8 Im Text vor-kom-men-de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
+\OT1/ptm/m/n/8 nicht-englische
+ []
+
+[4]
+Underfull \hbox (badness 1521) in paragraph at lines 277--278
+\OT1/ptm/m/n/10 ge-stellt, um sie der Nut-zung von Wor-tein-bet-tun-gen ge-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--287
+[]\OT1/ptm/m/n/8 Pan We-bis Group (2021). Sha-red Tasks. PAN. URL:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 []\OT1/ptm/m/n/8 A. Iyer and S. Vo-soug-hi. Sty-le Change De-tec-ti-on Using
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 232--233
+Underfull \hbox (badness 3029) in paragraph at lines 287--288
 \OT1/ptm/m/n/8 2020 Labs and Work-shops, No-te-book Pa-pers, Sep-tem-ber 2020.
  []
 
-[4]
-Underfull \hbox (badness 4927) in paragraph at lines 244--245
+[5]
+Underfull \hbox (badness 1748) in paragraph at lines 299--300
 []\OT1/ptm/m/n/8 B. Stein and N. Lip-ka and P. Pret-ten-ho-fer. In-t-rin-sic pl
-a-gia-
+a-gia-rism
  []
 
 
-Underfull \hbox (badness 1546) in paragraph at lines 244--245
-\OT1/ptm/m/n/8 rism ana-ly-sis. Lang Re-sources and Eva-lua-ti-on 45, 63{82, 20
-11.
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
+[]\OT1/ptm/m/n/8 Ryte GmbH (2022) Flesch-Reading-Ease
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
+\OT1/ptm/m/n/8 https://de.ryte.com/wiki/Flesch-Reading-Ease [ab-ge-ru-fen am
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--303
+[]\OT1/ptm/m/n/8 Bibliographisches In-sti-tut GmbH (2022) Syn-se-man-ti-kon. UR
+L:
+ []
+
+
+Underfull \hbox (badness 5036) in paragraph at lines 302--303
+\OT1/ptm/m/n/8 htt-ps://www.duden.de/rechtschreibung/Synsemantikon [ab-ge-ru-fe
+n am
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--305
+[]\OT1/ptm/m/n/8 N. Bat-chel-der. Hy-phe-na-ti-on. 2007. URL: htt-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 304--305
+\OT1/ptm/m/n/8 ps://nedbatchelder.com/code/modules/hyphenate.html [ab-ge-ru-fen
+
  []
 
 
@@ -510,17 +575,17 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[5
+[6
 
 ] (conference_101719.aux) ) 
 Here is how much of TeX's memory you used:
- 7958 strings out of 478584
- 124349 string characters out of 2856117
- 467666 words of memory out of 3000000
- 26013 multiletter control sequences out of 15000+600000
- 509427 words of font info for 107 fonts, out of 8000000 for 9000
+ 7473 strings out of 478584
+ 114433 string characters out of 2856117
+ 462151 words of memory out of 3000000
+ 25557 multiletter control sequences out of 15000+600000
+ 507801 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,10n,67p,1245b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,12n,62p,1556b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
 {D:/Programme/MikTeX/fonts/enc/dvips/base/8r.enc}<D:
 /Programme/MikTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Programme/MikTe
 X/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Programme/MikTeX/fonts/type1/pub
@@ -528,9 +593,9 @@ lic/amsfonts/cm/cmsy10.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmb8a.pf
 b><D:/Programme/MikTeX/fonts/type1/urw/times/utmbi8a.pfb><D:/Programme/MikTeX/f
 onts/type1/urw/times/utmr8a.pfb><D:/Programme/MikTeX/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on conference_101719.pdf (5 pages, 147515 bytes).
+Output written on conference_101719.pdf (6 pages, 285503 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
+ 63 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,18 +1,18 @@
 
 sentences_test.txt
 Aktuell vorhandene Funktionen.txt
-__pycache__/hyphenate.cpython-37.pyc
-__pycache__/tm.cpython-37.pyc
-*.pyc
 *.pyc
 freq_per_doc.txt
 freq_per_doc
 freq_per_doc.json
 freq_of_all_words.txt
 all_docs.txt
-__pycache__/tm.cpython-37.pyc
 val_fehlend.txt
-__pycache__/tm.cpython-37.pyc
-__pycache__/tm.cpython-37.pyc
-Models/rfc_model_final.pkl
-Models/rfc_model_test.pkl
+__pycache__/*
+Models/*
+
+
+Paper/*.aux
+Paper/*.log
+Paper/*.synctex.gz
+data/*

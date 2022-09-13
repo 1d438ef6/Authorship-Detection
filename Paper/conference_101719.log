@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.1) (preloaded format=pdflatex 2022.2.21)  27 FEB 2022 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.3) (preloaded format=pdflatex 2022.6.7)  13 SEP 2022 01:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **./conference_101719.tex
 (conference_101719.tex
 LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-02-05> (IEEEtran.cls
+L3 programming layer <2022-05-04> (IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -283,7 +283,7 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LT@p@ftn=\toks25
 )
 (D:\Programme\MikTeX\tex/generic/babel\babel.sty
-Package: babel 2022/02/13 3.71 The Babel package
+Package: babel 2022/05/22 3.75 The Babel package
 \babel@savecnt=\count288
 \U@D=\dimen176
 \l@unhyphenated=\language79
@@ -308,6 +308,10 @@ Language: germanb 2021/02/27 v2.13 German support for babel (pre-1996 orthograp
 hy)
 Package babel Info: Making " an active character on input line 139.
 )))
+(D:\Programme\MikTeX\tex/generic/babel/locale/de\babel-german.tex
+Package babel Info: Importing font and identification data for german
+(babel)             from babel-de.ini. Reported on input line 11.
+)
 (D:\Programme\MikTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks26
@@ -363,7 +367,7 @@ Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'german'.
 
 (D:\Programme\MikTeX\tex/latex/l3backend\l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2022-04-20 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count298
 \l__pdf_internal_box=\box61
 )
@@ -579,13 +583,13 @@ Before submitting the final camera ready copy, remember to:
 
 ] (conference_101719.aux) ) 
 Here is how much of TeX's memory you used:
- 7473 strings out of 478584
- 114433 string characters out of 2856117
- 462151 words of memory out of 3000000
- 25557 multiletter control sequences out of 15000+600000
+ 7546 strings out of 478614
+ 116380 string characters out of 2854839
+ 464324 words of memory out of 3000000
+ 25595 multiletter control sequences out of 15000+600000
  507801 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,62p,1556b,660s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,12n,62p,1556b,660s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {D:/Programme/MikTeX/fonts/enc/dvips/base/8r.enc}<D:
 /Programme/MikTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Programme/MikTe
 X/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Programme/MikTeX/fonts/type1/pub
